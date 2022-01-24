@@ -22,6 +22,14 @@ body {
     color: #fff;
     padding: 100px 25px;
     font-family: Montserrat, sans-serif;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  form {
+    width: 100%;
+    display: flex;
+    gap: 20px;
   }
   .container-fluid {
     padding: 60px 50px;

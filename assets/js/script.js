@@ -39,10 +39,6 @@ $(document).ready(function(){
     console.log(title)
     getMovie(title)
   }
-  $("#search").click(function (e) { 
-    e.preventDefault();
-    getTitle();
-  });
 
   // movie search 
   var getMovie = function(title) {
@@ -55,6 +51,7 @@ $(document).ready(function(){
         if (response.ok) {
             response.json().then(function(data) {
             console.log(data)
+            showMovie(data)
         });
     } else {
         alert("Error: title not found!");
@@ -64,3 +61,14 @@ $(document).ready(function(){
     alert("Unable to connect to cine score app");
     });
 };
+var showMovie = function(data) {
+  $("#movie-title").text(data.Title)
+  $("#year-rating").text(`${data.Year}, ${data.Rated}`)
+  $("#genre").text(`${data.Genre}`)
+  $("#synopsis").text(data.Plot)
+  $("#movie-poster").prepend(`<img id="poster" src=${data.Poster} />`)
+  $("#cast-list").text(` ${data.Actors}`)
+  $("#director").text(`Director: ${data.Director}`)
+  $("#writer").text(`Writer(s): ${data.Writer}`)
+  
+}

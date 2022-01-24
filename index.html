@@ -11,6 +11,7 @@
 </head>
 <body id="mainPage" data-spy="scroll" data-target=".navbar" data-offset="60">
 
+  <!-- Navigation Menu -->
 <nav class="navbar navbar-default navbar-fixed-top">
   <div class="container">
     <div class="navbar-header">
@@ -30,11 +31,12 @@
   </div>
 </nav>
 
+<!-- Movie Search Jumbotron -->
 <div id="movie-search" class="jumbotron text-center">
   <h1>Search for a movie!</h1> 
   <form id="search-form">
-    <input name="movie-search-title" type="text submit" class="form-control" size="50" placeholder="movie title" oninput="getTitle()"/>
-    <button id="search" type='button' class="btn btn-danger">Search</button>
+    <input name="movie-search-title" type="text" class="form-control" size="50" placeholder="movie title"/>
+    <button id="search" type='button' class="btn btn-danger" onclick="getTitle()">Search</button>
   </form>
 </div>
 
@@ -42,13 +44,14 @@
 <div id="movie-info" class="container-fluid">
   <div class="row">
     <div class="col-sm-8">
-      <h2>Movie Title</h2><br>
-      <h4 id="movie-title">Year and Rating</h4><br>
+      <h2 id="movie-title">Movie Title</h2><br>
+      <h4 id="year-rating">Year and Rating</h4>
+      <h4 id="genre">Genre</h4><br>
       <p id="synopsis">synopsis</p>
       <br><button id="get-soundtrack" class="btn btn-default btn-lg">Get the soundtrack</button>
     </div>
     <div class="col-sm-4">
-      <span>movie poster</span>
+      <span id="movie-poster"></span>
     </div>
   </div>
 </div>
@@ -61,25 +64,30 @@
     </div>
     <div class="col-sm-8">
       <h2>Cast</h2><br>
-      <h4 id="cast"><strong>Main Cast:</strong>
+      <h4 id="cast-list"><strong>Main Cast:</strong>
         list of main cast here 
       </h4><br>
-      <p id="crew"><strong>Crew:</strong> 
-        list of main crew here 
+      <p id="director">
+        Director
+      </p>
+      <p id="writer">
+        Writer
       </p>
     </div>
   </div>
 </div>
 
 <!-- Container (Score Section) -->
-<div id="cast" class="container-fluid">
+<div id="score" class="container-fluid">
   <div class="row">
     <div class="col-sm-4">
-      <span>icon for score</span>
+      <span id="rating-img">icon for score</span>
     </div>
     <div class="col-sm-8 text-center">
       <h2>SCORE</h2><br>
-      <h4 id="cast">MetaScore</h4><br>
+      <h4 id="imdb-rate">IMDB</h4><br>
+      <h4 id="tomatos-rate">Rotten Tomatoes</h4><br>
+      <h4 id="metacritic-rate">Metacritic</h4><br>
     </div>
   </div>
 </div>
