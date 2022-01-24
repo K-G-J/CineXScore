@@ -34,18 +34,33 @@ $(document).ready(function(){
     });
   })
 
-  // movie search 
-  const settings = {
-	"async": true,
-	"crossDomain": true,
-	"url": "https://movie-database-imdb-alternative.p.rapidapi.com/?s=Avengers%20Endgame&r=json&page=1",
-	"method": "GET",
-	"headers": {
-		"x-rapidapi-host": "movie-database-imdb-alternative.p.rapidapi.com",
-		"x-rapidapi-key": "NOT-AUTHORIZED"
-	}
-};
+  function getTitle() {
+    var title = $("input[name='movie-search-title']").val();
+    console.log(title)
+    getMovie(title)
+  }
+  $("#search").click(function (e) { 
+    e.preventDefault();
+    getTitle();
+  });
 
-$.ajax(settings).done(function (response) {
-	console.log(response);
-});
+  // movie search 
+  var getMovie = function(title) {
+    //format the OMDB api url 
+    var apiUrl = `http://www.omdbapi.com/?t=${title}&plot=full&apikey=836f8b0`
+    //make a request to the url 
+    fetch(apiUrl)
+    .then(function(response) {
+         // request was successful 
+        if (response.ok) {
+            response.json().then(function(data) {
+            console.log(data)
+        });
+    } else {
+        alert("Error: title not found!");
+    }
+})
+.catch(function(error) {
+    alert("Unable to connect to cine score app");
+    });
+};
