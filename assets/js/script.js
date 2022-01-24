@@ -70,5 +70,14 @@ var showMovie = function(data) {
   $("#cast-list").text(` ${data.Actors}`)
   $("#director").text(`Director: ${data.Director}`)
   $("#writer").text(`Writer(s): ${data.Writer}`)
-  
+  $("#imdb-rate").text(`${data.Ratings[0].Source} - ${data.Ratings[0].Value}`)
+  $("#tomatoes-rate").text(`${data.Ratings[1].Source} - ${data.Ratings[1].Value}`)
+  $("#metacritic-rate").text(`${data.Ratings[2].Source} - ${data.Ratings[2].Value}`)
+  var tomatoesRate = (data.Ratings[1].Value).replace("%", "")
+  parseInt(tomatoesRate)
+  if (tomatoesRate <= 60) {
+    $("#rating-img").prepend(`<img id="tomatoes-rate" src="https://www.clipartmax.com/png/full/351-3516739_cherry-tomato-clipart-tomatoe-rotten-tomatoes-icon-png.png" />`)
+  } else if (tomatoesRate >= 60) {
+    $("#rating-img").prepend(`<img id="tomatoes-rate" src="https://www.clipartmax.com/png/full/50-503981_rotten-tomatoes-fresh-logo.png" />`)
+  }
 }
