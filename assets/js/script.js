@@ -1,12 +1,11 @@
 var sendTitle = function() {
   var title = $("input[name='movie-search-title']").val();
-    console.log(title)
     getMovie(title)
     getQuotes(title)
 }
 $("input[name='movie-search-title']").keydown(function (e){
-  e.preventDefault 
   if(e.keyCode == 13){
+    e.preventDefault();
     sendTitle();
   }
 })
@@ -70,8 +69,9 @@ var getSoundTrack = function(specialId) {
     console.log(soundTrackData);
   });
 }
-
 var getQuotes = function(title) {
+  $("#quote-items").html("");
+  $("#movie-quotes-heading").removeClass("hidden");
   var title = title.replaceAll(" ","_")
   const settings = {
     "async": true,
@@ -92,10 +92,9 @@ var getQuotes = function(title) {
     //Ajax request failed.
     var errorMessage = xhr.status + ': ' + xhr.statusText
     console.log(`Error - ${errorMessage}`);
-    $("#movie-quotes").empty();
+    $("#movie-quotes-heading").addClass("hidden");
   });
 }
-
 var showMovie = function(movieData) {
   $("#movie-title").text(movieData.Title)
   let currMovieTitle = movieData.Title
@@ -123,6 +122,6 @@ var showQuotes = function(quoteData) {
     quoteData.forEach(quoteItem => {
     var carouselItem = document.createElement("div")
     $(carouselItem).html(`<h4 class='quote'>"${quoteItem.quote}"<br><br><span class='quote-character'>-${quoteItem.character}</span></h4><br>`)
-    $(carouselItem).appendTo("#quote-carousel");
+    $(carouselItem).appendTo("#quote-items");
   });
 }
