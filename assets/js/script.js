@@ -33,6 +33,44 @@ $("input[name='movie-search-title']").keydown(function (e){
     alert("Unable to connect to cine score app");
     });
 };
+var getMovieId = function(currMovieTitle) {
+  const settings = {
+    "async": true,
+    "crossDomain": true,
+    "url": `https://imdb8.p.rapidapi.com/title/find?q=${currMovieTitle}`,
+    "method": "GET",
+    "headers": {
+      "x-rapidapi-host": "imdb8.p.rapidapi.com",
+      "x-rapidapi-key": "229d984177msh18d191b1335378fp137dcejsn7c92ab2acfaf"
+    }
+  };
+  
+  $.ajax(settings).done(function (response) {
+    console.log(response);
+    var specialId = response.results[0].id
+    var specialId = specialId.replace("/title/", "")
+    var specialId = specialId.replace("/","")
+    console.log(specialId)
+    getSoundTrack(specialId)
+  });
+}
+var getSoundTrack = function(specialId) {
+  const settings = {
+    "async": true,
+    "crossDomain": true,
+    "url": `https://imdb8.p.rapidapi.com/title/get-sound-tracks?tconst=${specialId}`,
+    "method": "GET",
+    "headers": {
+      "x-rapidapi-host": "imdb8.p.rapidapi.com",
+      "x-rapidapi-key": "229d984177msh18d191b1335378fp137dcejsn7c92ab2acfaf"
+    }
+  };
+  
+  $.ajax(settings).done(function (soundTrackData) {
+    console.log(soundTrackData);
+  });
+}
+
 var getQuotes = function(title) {
   var title = title.replaceAll(" ","_")
   const settings = {
@@ -60,6 +98,8 @@ var getQuotes = function(title) {
 
 var showMovie = function(movieData) {
   $("#movie-title").text(movieData.Title)
+  let currMovieTitle = movieData.Title
+  getMovieId(currMovieTitle);
   $("#year-rating").text(`${movieData.Year}, ${movieData.Rated}`)
   $("#genre").text(`${movieData.Genre}`)
   $("#synopsis").text(movieData.Plot)
