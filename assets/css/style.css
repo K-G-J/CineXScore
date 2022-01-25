@@ -3,6 +3,9 @@ body {
     line-height: 1.8;
     color: #818181;
   }
+  .hidden {
+    display: none;
+  }
   h2 {
     font-size: 24px;
     text-transform: uppercase;
@@ -54,6 +57,10 @@ body {
     width: 100%;
     height: 100%;
     margin-bottom: 10px;
+  }
+  #tomatoes-rate{
+    width: 80%;
+    height: 80%;
   }
   .carousel-control.right, .carousel-control.left {
     background-image: none;

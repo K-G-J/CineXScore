@@ -1,47 +1,19 @@
-// basic scrolling fluidity 
-$(document).ready(function(){
-    // Add smooth scrolling to all links in navbar + footer link
-    $(".navbar a, footer a[href='#mainPage']").on('click', function(event) {
-      // Make sure this.hash has a value before overriding default behavior
-      if (this.hash !== "") {
-        // Prevent default anchor click behavior
-        event.preventDefault();
-  
-        // Store hash
-        var hash = this.hash;
-  
-        // Using jQuery's animate() method to add smooth page scroll
-        // The optional number (900) specifies the number of milliseconds it takes to scroll to the specified area
-        $('html, body').animate({
-          scrollTop: $(hash).offset().top
-        }, 900, function(){
-     
-          // Add hash (#) to URL when done scrolling (default click behavior)
-          window.location.hash = hash;
-        });
-      } // End if
-    });
-    
-    $(window).scroll(function() {
-      $(".slideanim").each(function(){
-        var pos = $(this).offset().top;
-  
-        var winTop = $(window).scrollTop();
-          if (pos < winTop + 600) {
-            $(this).addClass("slide");
-          }
-      });
-    });
-  })
-
-  function getTitle() {
-    var title = $("input[name='movie-search-title']").val();
+var sendTitle = function() {
+  var title = $("input[name='movie-search-title']").val();
     console.log(title)
     getMovie(title)
+    getQuotes(title)
+}
+$("input[name='movie-search-title']").keydown(function (e){
+  e.preventDefault 
+  if(e.keyCode == 13){
+    sendTitle();
   }
-
-  // movie search 
+})
+// movie search 
   var getMovie = function(title) {
+    $("#main").removeClass("hidden");
+    $("#search-form").trigger("reset");
     //format the OMDB api url 
     var apiUrl = `http://www.omdbapi.com/?t=${title}&plot=full&apikey=836f8b0`
     //make a request to the url 
@@ -49,9 +21,9 @@ $(document).ready(function(){
     .then(function(response) {
          // request was successful 
         if (response.ok) {
-            response.json().then(function(data) {
-            console.log(data)
-            showMovie(data)
+            response.json().then(function(movieData) {
+            console.log(movieData)
+            showMovie(movieData)
         });
     } else {
         alert("Error: title not found!");
@@ -61,23 +33,56 @@ $(document).ready(function(){
     alert("Unable to connect to cine score app");
     });
 };
-var showMovie = function(data) {
-  $("#movie-title").text(data.Title)
-  $("#year-rating").text(`${data.Year}, ${data.Rated}`)
-  $("#genre").text(`${data.Genre}`)
-  $("#synopsis").text(data.Plot)
-  $("#movie-poster").prepend(`<img id="poster" src=${data.Poster} />`)
-  $("#cast-list").text(` ${data.Actors}`)
-  $("#director").text(`Director: ${data.Director}`)
-  $("#writer").text(`Writer(s): ${data.Writer}`)
-  $("#imdb-rate").text(`${data.Ratings[0].Source} - ${data.Ratings[0].Value}`)
-  $("#tomatoes-rate").text(`${data.Ratings[1].Source} - ${data.Ratings[1].Value}`)
-  $("#metacritic-rate").text(`${data.Ratings[2].Source} - ${data.Ratings[2].Value}`)
-  var tomatoesRate = (data.Ratings[1].Value).replace("%", "")
+var getQuotes = function(title) {
+  var title = title.replaceAll(" ","_")
+  const settings = {
+    "async": true,
+    "crossDomain": true,
+    "url": `https://movie-and-tv-shows-quotes.p.rapidapi.com/quotes/from/${title}`,
+    "method": "GET",
+    "headers": {
+      "x-rapidapi-host": "movie-and-tv-shows-quotes.p.rapidapi.com",
+      "x-rapidapi-key": "229d984177msh18d191b1335378fp137dcejsn7c92ab2acfaf"
+    }
+  };
+  
+  $.ajax(settings).done(function (quoteData) {
+    console.log(quoteData);
+    showQuotes(quoteData)
+  })
+  .fail(function(xhr, status, error) {
+    //Ajax request failed.
+    var errorMessage = xhr.status + ': ' + xhr.statusText
+    console.log(`Error - ${errorMessage}`);
+    $("#movie-quotes").empty();
+  });
+}
+
+var showMovie = function(movieData) {
+  $("#movie-title").text(movieData.Title)
+  $("#year-rating").text(`${movieData.Year}, ${movieData.Rated}`)
+  $("#genre").text(`${movieData.Genre}`)
+  $("#synopsis").text(movieData.Plot)
+  $("#poster").attr("src", movieData.Poster);
+  $("#cast-list").text(`Main Cast: ${movieData.Actors}`)
+  $("#director").text(`Director: ${movieData.Director}`)
+  $("#writer").text(`Writer(s): ${movieData.Writer}`)
+  $("#imdb-rate").text(`${movieData.Ratings[0].Source} - ${movieData.Ratings[0].Value}`)
+  $("#tomatoes-rate").text(`${movieData.Ratings[1].Source} - ${movieData.Ratings[1].Value}`)
+  $("#metacritic-rate").text(`${movieData.Ratings[2].Source} - ${movieData.Ratings[2].Value}`)
+  var tomatoesRate = (movieData.Ratings[1].Value).replace("%", "")
   parseInt(tomatoesRate)
   if (tomatoesRate <= 60) {
-    $("#rating-img").prepend(`<img id="tomatoes-rate" src="https://www.clipartmax.com/png/full/351-3516739_cherry-tomato-clipart-tomatoe-rotten-tomatoes-icon-png.png" />`)
+    $("#tomatoes-rate").attr("src", "https://www.clipartmax.com/png/full/351-3516739_cherry-tomato-clipart-tomatoe-rotten-tomatoes-icon-png.png")
   } else if (tomatoesRate >= 60) {
-    $("#rating-img").prepend(`<img id="tomatoes-rate" src="https://www.clipartmax.com/png/full/50-503981_rotten-tomatoes-fresh-logo.png" />`)
+    $("#tomatoes-rate").attr("src", "https://www.clipartmax.com/png/full/50-503981_rotten-tomatoes-fresh-logo.png")
   }
+}
+var showQuotes = function(quoteData) {
+  $("#movie-quotes-heading").text("Movie Quotes")
+    quoteData.forEach(quoteItem => {
+    var carouselItem = document.createElement("div")
+    $(carouselItem).html(`<h4 class='quote'>"${quoteItem.quote}"<br><br><span class='quote-character'>-${quoteItem.character}</span></h4><br>`)
+    $(carouselItem).appendTo("#quote-carousel");
+  });
 }

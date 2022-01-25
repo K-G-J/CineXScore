@@ -36,22 +36,25 @@
   <h1>Search for a movie!</h1> 
   <form id="search-form">
     <input name="movie-search-title" type="text" class="form-control" size="50" placeholder="movie title"/>
-    <button id="search" type='button' class="btn btn-danger" onclick="getTitle()">Search</button>
+    <button id="searchBtn" type='button' class="btn btn-danger" onclick="sendTitle()">Search</button>
   </form>
 </div>
 
+<main id="main" class=hidden>
 <!-- Container (main movie info) -->
 <div id="movie-info" class="container-fluid">
   <div class="row">
     <div class="col-sm-8">
-      <h2 id="movie-title">Movie Title</h2><br>
-      <h4 id="year-rating">Year and Rating</h4>
-      <h4 id="genre">Genre</h4><br>
-      <p id="synopsis">synopsis</p>
+      <h2 id="movie-title"></h2><br>
+      <h4 id="year-rating"></h4>
+      <h4 id="genre"></h4><br>
+      <p id="synopsis"></p>
       <br><button id="get-soundtrack" class="btn btn-default btn-lg">Get the soundtrack</button>
     </div>
     <div class="col-sm-4">
-      <span id="movie-poster"></span>
+      <span id="movie-poster">
+        <img id="poster" src="" />
+      </span>
     </div>
   </div>
 </div>
@@ -66,14 +69,10 @@
     </div>
     <div class="col-sm-8">
       <h2>Cast</h2><br>
-      <h4 id="cast-list"><strong>Main Cast:</strong>
-        list of main cast here 
-      </h4><br>
+      <h4 id="cast-list"></h4><br>
       <p id="director">
-        Director
       </p>
       <p id="writer">
-        Writer
       </p>
     </div>
   </div>
@@ -83,13 +82,15 @@
 <div id="score" class="container-fluid">
   <div class="row">
     <div class="col-sm-4">
-      <span id="rating-img"></span>
+      <span id="rating-img">
+        <img id="tomatoes-rate" src=""/>
+      </span>
     </div>
     <div class="col-sm-8 text-center">
       <h2>SCORE</h2><br>
-      <h4 id="imdb-rate">IMDB</h4><br>
-      <h4 id="tomatoes-rate">Rotten Tomatoes</h4><br>
-      <h4 id="metacritic-rate">Metacritic</h4><br>
+      <h4 id="imdb-rate"></h4><br>
+      <h4 id="tomatoes-rate"></h4><br>
+      <h4 id="metacritic-rate"></h4><br>
     </div>
   </div>
 </div>
@@ -107,45 +108,20 @@
 
 <!-- Container (Movie Quotes Section)-->
 <div id="movie-quotes" class="container-fluid text-center">
-  <h2>Movie Quotes</h2>
+  <h2 id="movie-quotes-heading"></h2>
   <div id="quoteCarousel" class="carousel slide text-center" data-ride="carousel">
-    <!-- Indicators -->
-    <ol class="carousel-indicators">
-      <li data-target="#quoteCarousel" data-slide-to="0" class="active"></li>
-      <li data-target="#quoteCarousel" data-slide-to="1"></li>
-      <li data-target="#quoteCarousel" data-slide-to="2"></li>
-    </ol>
-
     <!-- Wrapper for slides -->
-    <div class="carousel-inner" role="listbox">
-      <div class="item active">
-        <h4>"movie quote"<br><span>character</span></h4>
-      </div>
-      <div class="item">
-        <h4>"movie quote"<br><span>character</span></h4>
-      </div>
-      <div class="item">
-        <h4>"movie quote"<br><span>character</span></h4>
-      </div>
-    </div>
-
-    <!-- Left and right controls -->
-    <a class="left carousel-control" href="#quoteCarousel" role="button" data-slide="prev">
-      <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-      <span class="sr-only">Previous</span>
-    </a>
-    <a class="right carousel-control" href="#quoteCarousel" role="button" data-slide="next">
-      <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-      <span class="sr-only">Next</span>
-    </a>
+    <div id="quote-carousel" class="carousel-inner" role="listbox"></div>
   </div>
 </div>
 
+<!-- Footer -->
 <footer class="container-fluid text-center">
   <a href="#mainPage" title="To Top">
-    <span class="glyphicon glyphicon-chevron-up"></span>
+    <span class="glyphicon glyphicon-chevron-up"> Top </span>
   </a>
 </footer>
+</main>
 </body>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
