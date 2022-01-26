@@ -9,7 +9,7 @@ $("input[name='movie-search-title']").keydown(function (e){
     sendTitle();
   }
 })
-// movie autocomplete 
+// movie input autocomplete 
 var $input = document.getElementById('searchBox');
 var baseUrl = "http://sg.media-imdb.com/suggests/";
 var $result = document.getElementById('result');
@@ -90,9 +90,12 @@ $input.addEventListener('keyup', function(){
         if (response.ok) {
             response.json().then(function(movieData) {
             // console.log(movieData)
-            let currMovieTitle = movieData.Title
-            var movieData = movieData
-            getMovieId(currMovieTitle);
+            var movieTitle = movieData.Title
+            getMovieId(movieTitle);
+            var movieObj = {
+              title: movieTitle
+            }
+            saveSearch(movieObj);
             showMovie(movieData);
             return movieData 
         });
@@ -105,13 +108,12 @@ $input.addEventListener('keyup', function(){
     console.log(error)
     });
 };
-
 // get specialID for other movie details (API #2)
-var getMovieId = function(currMovieTitle) {
+var getMovieId = function(movieTitle) {
   const settings = {
     "async": true,
     "crossDomain": true,
-    "url": `https://imdb8.p.rapidapi.com/title/find?q=${currMovieTitle}`,
+    "url": `https://imdb8.p.rapidapi.com/title/find?q=${movieTitle}`,
     "method": "GET",
     "headers": {
       "x-rapidapi-host": "imdb8.p.rapidapi.com",
@@ -126,13 +128,13 @@ var getMovieId = function(currMovieTitle) {
     var specialId = specialId.replace("/","")
     // console.log(specialId)
     getMovieImgs(specialId)
-    getHero(specialId)
+    getPromos(specialId)
     getSoundTrack(specialId)
     return specialId
   });
 }
-// get hero image (API #2)
-var getHero = function(specialId) {
+// get hero image and promo video (API #2)
+var getPromos = function(specialId) {
   var specialId = getMovieId();
   const settings = {
     "async": true,
@@ -144,9 +146,12 @@ var getHero = function(specialId) {
       "x-rapidapi-key": "229d984177msh18d191b1335378fp137dcejsn7c92ab2acfaf"
     }
   };
-  $.ajax(settings).done(function (heroData) {
-    console.log(heroData);
-    $("#hero-image").attr("src", heroData.heroImages[0].url)
+  $.ajax(settings).done(function (promoData) {
+    console.log(promoData);
+    $("#hero-image").attr("src", promoData.heroImages[0].url)
+    var videoId = (promoData.topVideos[0].id).replace("/videoV2/","")
+    $("#promo-video").attr("src", `https://www.imdb.com/video/${videoId}`)
+    $("#video-description").text(promoData.topVideos[0].description);
   });
 }
 // get additional images (API #2)
@@ -182,29 +187,22 @@ var getSoundTrack = function(specialId) {
   
   $.ajax(settings).done(function (soundTrackData) {
     console.log(soundTrackData);
-    // let albumName = soundTrackData.soundtracks[0].name
-    // let albumDetails = soundTrackData.soundtracks.comment 
-    // let albumImg = soundTrackData.soundtracks[0].products[0].image.url
-    // let ASINKEY = soundTrackData.soundtracks[0].products[0].productId.key
-    // let albumUrl = `www.amazon.com/dp/${ASINKEY}`
-  });
-}
-// get LOTS of movie quotes - returns huge array of quotes, could use for slideshow UI (API #2)
-var getQuotes2 = function(specialId) {
-  var specialId = getMovieId();
-  const settings = {
-    "async": true,
-    "crossDomain": true,
-    "url": `https://imdb8.p.rapidapi.com/title/get-quotes?tconst=${specialId}`,
-    "method": "GET",
-    "headers": {
-      "x-rapidapi-host": "imdb8.p.rapidapi.com",
-      "x-rapidapi-key": "229d984177msh18d191b1335378fp137dcejsn7c92ab2acfaf"
-    }
-  };
-  
-  $.ajax(settings).done(function (response) {
-    console.log(response);
+    var albumName = soundTrackData.soundtracks[0].name
+    var albumDetails = soundTrackData.soundtracks.comment 
+    var albumImg = soundTrackData.soundtracks[0].products[0].image.url
+    var ASINKEY = soundTrackData.soundtracks[0].products[0].productId.key
+    var albumUrl = `www.amazon.com/dp/${ASINKEY}`
+    $("#soundtrack-title").text(albumName)
+    $("#soundtrack-image").attr("src", albumImg)
+    $("#soundtrack-details").text(albumDetails)
+    var trackObj = {
+      name: albumName,
+      url: albumUrl
+    };
+    $("#save-to-favorites").click(function (e) { 
+      e.preventDefault();
+      saveTrack(trackObj)
+    });
   });
 }
 // get movie quotes (API #3)
@@ -234,7 +232,6 @@ var getQuotes = function(title) {
     $("#movie-quotes-heading").addClass("hidden");
   });
 }
-
 var showMovie = function(movieData) {
   $("#movie-title").text(movieData.Title)
   $("#year-rating").text(`${movieData.Year}, ${movieData.Rated}`)
@@ -262,4 +259,30 @@ var showQuotes = function(quoteData) {
     $(carouselItem).html(`<h4 class='quote'>"${quoteItem.quote}"<br><br><span class='quote-character'>-${quoteItem.character}</span></h4><br>`)
     $(carouselItem).appendTo("#quote-items");
   });
+}
+
+// create dropdown past search buttons 
+var saveSearch = function (movieObj) {
+  var pastSearches = JSON.parse(localStorage.getItem("movieObjects"));
+  if (!pastSearches || !Array.isArray(pastSearches)) {
+    var pastSearches = []
+  }
+  pastSearches.push(movieObj);
+  localStorage.setItem("movieObjects", JSON.stringify(pastSearches))
+}
+
+// function loadPastSearches() {
+//   var pastSearches = JSON.parse(localStorage.getItem("movieObjects"));
+//   if (!pastSearches || !Array.isArray(pastSearches)) return []
+//   else return pastSearches
+// } 
+
+// create dropdown favorite soundtrack buttons 
+var saveTrack = function(trackObj) {
+  var faveTracks = JSON.parse(localStorage.getItem("trackObjects"));
+  if (!faveTracks || !Array.isArray(faveTracks)) {
+    var faveTracks = []
+  }
+  faveTracks.push(trackObj);
+  localStorage.setItem("trackObjects", JSON.stringify(faveTracks))
 }
