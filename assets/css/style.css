@@ -33,6 +33,15 @@ body {
     width: 100%;
     display: flex;
     gap: 20px;
+    flex-direction: row;
+  }
+  #results {
+    display: flex;
+    flex-direction: column;
+    justify-content: left;
+    width: 20%;
+    text-align: left;
+    color: antiquewhite;
   }
   .container-fluid {
     padding: 60px 50px;

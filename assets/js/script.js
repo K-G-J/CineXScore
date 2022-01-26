@@ -9,8 +9,76 @@ $("input[name='movie-search-title']").keydown(function (e){
     sendTitle();
   }
 })
+// movie autocomplete 
+var $input = document.getElementById('searchBox');
+var baseUrl = "http://sg.media-imdb.com/suggests/";
+var $result = document.getElementById('result');
+$input.addEventListener('keyup', function(){
+  $("#result").removeClass("hidden");
+	//clearing blank spaces from input
+	var cleanInput = $input.value.replace(/\s/g, "");
+	//clearing result div if the input box in empty
+	if(cleanInput.length === 0) {
+		$result.innerHTML = "";
+	}
+	if(cleanInput.length > 0) {
+		var queryUrl = baseUrl + cleanInput[0].toLowerCase() + "/" 
+    + cleanInput.toLowerCase()
+    + ".json";	
+    $.ajax({
+      url: queryUrl,
+      dataType: 'jsonp',
+      cache: true,
+      jsonp: false,
+      jsonpCallback: "imdb$" + cleanInput.toLowerCase()
+    }).done(function (result) {
+      //clearing result div if there is a valid response
+      if(result.d.length > 0) {
+        $result.innerHTML = "";
+      }
+      for(var i = 0; i < result.d.length; i++) {
+        let category = result.d[i].id.slice(0,2);
+        if(category === "tt" || category === "nm") {		    		
+          //row for risplaying one result
+          let resultRow = document.createElement('p');
+          resultRow.setAttribute('class', 'resultRow')
+		    		//creating and setting description
+            let description = document.createElement('div');
+            description.setAttribute('class', 'description');
+            let name = document.createElement('h4');
+            let snippet = document.createElement('h5');
+            if(category === "tt" && result.d[i].y) {
+              name.innerHTML = result.d[i].l + " (" + result.d[i].y + ")";
+              let nameText = name.innerHTML
+              $(name).click(function (e) { 
+                e.preventDefault();
+                let title = nameText.slice(0, nameText.lastIndexOf(" "))
+                getMovie(title)
+                getQuotes(title)
+              });
+            } else {
+              name.innerHTML = result.d[i].l;
+              let nameText = name.innerHTML
+              $(name).click(function (e) { 
+                e.preventDefault();
+                let title = nameText.slice(0, nameText.lastIndexOf(" "))
+                getMovie(title)
+                getQuotes(title)
+              });
+            }
+            snippet.innerHTML = result.d[i].s;
+            $(description).append(name);
+            $(resultRow).append(description);
+            $("#result").append(resultRow);
+		    	}
+		    }
+		});
+	}
+});
+
 // movie search 
   var getMovie = function(title) {
+    $("#result").addClass("hidden")
     $("#main").removeClass("hidden");
     $("#search-form").trigger("reset");
     //format the OMDB api url 

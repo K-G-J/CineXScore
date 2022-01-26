@@ -35,10 +35,12 @@
 <div id="movie-search" class="jumbotron text-center">
   <h1>Search for a movie!</h1> 
   <form id="search-form">
-    <input name="movie-search-title" type="text" class="form-control" size="50" placeholder="movie title"/>
+    <input id="searchBox" name="movie-search-title" type="text" class="form-control" size="50" placeholder="movie title"/>
     <button id="searchBtn" type='button' class="btn btn-danger" onclick="sendTitle()">Search</button>
   </form>
+  <div id="result"></div>
 </div>
+
 
 <main id="main" class=hidden>
 <!-- Container (main movie info) -->
