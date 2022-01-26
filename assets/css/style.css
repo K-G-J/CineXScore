@@ -3,9 +3,14 @@ body {
     line-height: 1.8;
     color: #818181;
   }
+
+  /* KEEP THIS CLASS */
   .hidden {
     display: none;
   }
+  /* IMPORTANT FOR JS */
+
+
   h2 {
     font-size: 24px;
     text-transform: uppercase;
@@ -66,6 +71,10 @@ body {
     width: 100%;
     height: 100%;
     margin-bottom: 10px;
+  }
+  #cast-image {
+    width: 80%;
+    height: 80%;
   }
   #tomatoes-rate{
     width: 80%;

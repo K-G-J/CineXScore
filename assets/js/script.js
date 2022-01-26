@@ -76,7 +76,7 @@ $input.addEventListener('keyup', function(){
 	}
 });
 
-// movie search 
+// primary movie information
   var getMovie = function(title) {
     $("#result").addClass("hidden")
     $("#main").removeClass("hidden");
@@ -90,7 +90,11 @@ $input.addEventListener('keyup', function(){
         if (response.ok) {
             response.json().then(function(movieData) {
             console.log(movieData)
-            showMovie(movieData)
+            let currMovieTitle = movieData.Title
+            var movieData = movieData
+            getMovieId(currMovieTitle);
+            showMovie(movieData);
+            return movieData 
         });
     } else {
         alert("Error: title not found!");
@@ -100,6 +104,8 @@ $input.addEventListener('keyup', function(){
     alert("Unable to connect to cine score app");
     });
 };
+
+// get specialID for other movie details
 var getMovieId = function(currMovieTitle) {
   const settings = {
     "async": true,
@@ -118,25 +124,12 @@ var getMovieId = function(currMovieTitle) {
     var specialId = specialId.replace("/title/", "")
     var specialId = specialId.replace("/","")
     console.log(specialId)
-    getSoundTrack(specialId)
+    getMovieImgs(specialId)
+    getHero(specialId)
+    return specialId
   });
 }
-var getSoundTrack = function(specialId) {
-  const settings = {
-    "async": true,
-    "crossDomain": true,
-    "url": `https://imdb8.p.rapidapi.com/title/get-sound-tracks?tconst=${specialId}`,
-    "method": "GET",
-    "headers": {
-      "x-rapidapi-host": "imdb8.p.rapidapi.com",
-      "x-rapidapi-key": "229d984177msh18d191b1335378fp137dcejsn7c92ab2acfaf"
-    }
-  };
-  
-  $.ajax(settings).done(function (soundTrackData) {
-    console.log(soundTrackData);
-  });
-}
+// get movie quotes 
 var getQuotes = function(title) {
   $("#quote-items").html("");
   $("#movie-quotes-heading").removeClass("hidden");
@@ -163,10 +156,81 @@ var getQuotes = function(title) {
     $("#movie-quotes-heading").addClass("hidden");
   });
 }
+// get movie soundtrack
+var getSoundTrack = function(specialId) {
+  const settings = {
+    "async": true,
+    "crossDomain": true,
+    "url": `https://imdb8.p.rapidapi.com/title/get-sound-tracks?tconst=${specialId}`,
+    "method": "GET",
+    "headers": {
+      "x-rapidapi-host": "imdb8.p.rapidapi.com",
+      "x-rapidapi-key": "229d984177msh18d191b1335378fp137dcejsn7c92ab2acfaf"
+    }
+  };
+  
+  $.ajax(settings).done(function (soundTrackData) {
+    console.log(soundTrackData);
+  });
+}
+// get hero image 
+var getHero = function(specialId) {
+  var specialId = getMovieId();
+  const settings = {
+    "async": true,
+    "crossDomain": true,
+    "url": `https://imdb8.p.rapidapi.com/title/get-hero-with-promoted-video?tconst=${specialId}&purchaseCountry=US&currentCountry=US`,
+    "method": "GET",
+    "headers": {
+      "x-rapidapi-host": "imdb8.p.rapidapi.com",
+      "x-rapidapi-key": "229d984177msh18d191b1335378fp137dcejsn7c92ab2acfaf"
+    }
+  };
+  $.ajax(settings).done(function (heroData) {
+    console.log(heroData);
+    $("#hero-image").attr("src", heroData.heroImages[0].url)
+  });
+}
+// get additional images 
+var getMovieImgs = function(specialId) {
+  const settings = {
+    "async": true,
+    "crossDomain": true,
+    "url": `https://imdb8.p.rapidapi.com/title/get-images?tconst=${specialId}&limit=25`,
+    "method": "GET",
+    "headers": {
+      "x-rapidapi-host": "imdb8.p.rapidapi.com",
+      "x-rapidapi-key": "229d984177msh18d191b1335378fp137dcejsn7c92ab2acfaf"
+    }
+  };
+  
+  $.ajax(settings).done(function (movieImgs) {
+    console.log(movieImgs);
+    $("#cast-image").attr("src", movieImgs.images[0].url);
+  });
+}
+// get LOTS of movie quotes
+var getQuotes2 = function(specialId) {
+  var specialId = getMovieId();
+  const settings = {
+    "async": true,
+    "crossDomain": true,
+    "url": `https://imdb8.p.rapidapi.com/title/get-quotes?tconst=${specialId}`,
+    "method": "GET",
+    "headers": {
+      "x-rapidapi-host": "imdb8.p.rapidapi.com",
+      "x-rapidapi-key": "229d984177msh18d191b1335378fp137dcejsn7c92ab2acfaf"
+    }
+  };
+  
+  $.ajax(settings).done(function (response) {
+    console.log(response);
+  });
+}
+
+
 var showMovie = function(movieData) {
   $("#movie-title").text(movieData.Title)
-  let currMovieTitle = movieData.Title
-  getMovieId(currMovieTitle);
   $("#year-rating").text(`${movieData.Year}, ${movieData.Rated}`)
   $("#genre").text(`${movieData.Genre}`)
   $("#synopsis").text(movieData.Plot)
@@ -175,7 +239,9 @@ var showMovie = function(movieData) {
   $("#director").text(`Director: ${movieData.Director}`)
   $("#writer").text(`Writer(s): ${movieData.Writer}`)
   $("#imdb-rate").text(`${movieData.Ratings[0].Source} - ${movieData.Ratings[0].Value}`)
+  // not printing
   $("#tomatoes-rate").text(`${movieData.Ratings[1].Source} - ${movieData.Ratings[1].Value}`)
+  // problem 
   $("#metacritic-rate").text(`${movieData.Ratings[2].Source} - ${movieData.Ratings[2].Value}`)
   var tomatoesRate = (movieData.Ratings[1].Value).replace("%", "")
   parseInt(tomatoesRate)
@@ -183,6 +249,9 @@ var showMovie = function(movieData) {
     $("#tomatoes-rate").attr("src", "https://www.clipartmax.com/png/full/351-3516739_cherry-tomato-clipart-tomatoe-rotten-tomatoes-icon-png.png")
   } else if (tomatoesRate >= 60) {
     $("#tomatoes-rate").attr("src", "https://www.clipartmax.com/png/full/50-503981_rotten-tomatoes-fresh-logo.png")
+  } 
+  else {
+    $("#tomatoes-rate").attr("src", "https://www.pinpng.com/pngs/m/339-3397388_movie-film-clipart-png-download-film-reel-clip.png")
   }
 }
 var showQuotes = function(quoteData) {
