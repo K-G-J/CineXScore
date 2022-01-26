@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
   <title>Cine Score</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
   <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" type="text/css">
   <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">
-  <link rel="stylesheet" href="assets/css/style.css"
+  <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body id="mainPage" data-spy="scroll" data-target=".navbar" data-offset="60">
 
@@ -24,8 +25,8 @@
     </div>
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="#past-searches">Past Searches</a></li>
-        <li><a href="#favorite-soundtracks">Favorite Soundtracks</a></li>
+        <li><a id="past-searches">Past Searches</a></li>
+        <li><a id="favorite-soundtracks">Favorite Soundtracks</a></li>
       </ul>
     </div>
   </div>
@@ -55,7 +56,7 @@
       <h4 id="year-rating"></h4>
       <h4 id="genre"></h4><br>
       <p id="synopsis"></p>
-      <br><button id="get-soundtrack" class="btn btn-default btn-lg">Get the soundtrack</button>
+      <br><button href="#soundtrack" id="get-soundtrack" class="btn btn-default btn-lg">Get the soundtrack</button>
     </div>
     <div class="col-sm-4">
       <span id="movie-poster">
@@ -89,7 +90,7 @@
   <div class="row">
     <div class="col-sm-4">
       <span id="rating-img">
-        <img id="tomatoes-rate" src=""/>
+        <img id="tomatoes-rate" src="https://www.pinpng.com/pngs/m/339-3397388_movie-film-clipart-png-download-film-reel-clip.png"/>
       </span>
     </div>
     <div class="col-sm-8 text-center">
