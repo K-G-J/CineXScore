@@ -360,7 +360,7 @@ var populateFavorites = function() {
     $("#favorite-tracks-dropdown").append(trackEl)
   }
 } 
-$(window).load(populateFavorites())
+$(document).ready(function() {populateFavorites()});
 // clear searches and favorite tracks
 $("#clear-searches").click(function (e) { 
   e.preventDefault();
