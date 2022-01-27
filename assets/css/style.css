@@ -76,13 +76,20 @@ body {
     width: 80%;
     height: 80%;
   }
-  #tomatoes-rate {
+  #tomatoes-rate-image {
     width: 80%;
     height: 80%;
   }
   #soundtrack-image {
-    width: 80%;
-    height: 80%;
+    width: 60%;
+    height: 60%;
+  }
+  #video-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
   }
   .carousel-control.right, .carousel-control.left {
     background-image: none;
@@ -169,24 +176,7 @@ body {
     margin-bottom: 20px;
     color: #40376E;
   }
-  .slideanim {visibility:hidden;}
-  .slide {
-    animation-name: slide;
-    -webkit-animation-name: slide;
-    animation-duration: 1s;
-    -webkit-animation-duration: 1s;
-    visibility: visible;
-  }
-  @keyframes slide {
-    0% {
-      opacity: 0;
-      transform: translateY(70%);
-    } 
-    100% {
-      opacity: 1;
-      transform: translateY(0%);
-    }
-  }
+
   @-webkit-keyframes slide {
     0% {
       opacity: 0;

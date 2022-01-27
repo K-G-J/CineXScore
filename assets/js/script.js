@@ -92,6 +92,8 @@ $input.addEventListener('keyup', function(){
             // console.log(movieData)
             var movieTitle = movieData.Title
             getMovieId(movieTitle);
+            getSoundTrack(movieTitle);
+            getTrailer(movieTitle);
             var movieObj = {
               title: movieTitle
             }
@@ -129,13 +131,10 @@ var getMovieId = function(movieTitle) {
     // console.log(specialId)
     getMovieImgs(specialId)
     getPromos(specialId)
-    getSoundTrack(specialId)
-    return specialId
   });
 }
-// get hero image and promo video (API #2)
+// get hero image (API #2)
 var getPromos = function(specialId) {
-  var specialId = getMovieId();
   const settings = {
     "async": true,
     "crossDomain": true,
@@ -147,11 +146,8 @@ var getPromos = function(specialId) {
     }
   };
   $.ajax(settings).done(function (promoData) {
-    console.log(promoData);
+    // console.log(promoData);
     $("#hero-image").attr("src", promoData.heroImages[0].url)
-    var videoId = (promoData.topVideos[0].id).replace("/videoV2/","")
-    $("#promo-video").attr("src", `https://www.imdb.com/video/${videoId}`)
-    $("#video-description").text(promoData.topVideos[0].description);
   });
 }
 // get additional images (API #2)
@@ -172,26 +168,26 @@ var getMovieImgs = function(specialId) {
     $("#cast-image").attr("src", movieImgs.images[0].url);
   });
 }
-// get movie soundtrack (API #2)
-var getSoundTrack = function(specialId) {
+// get movie soundtrack (API #3)
+var getSoundTrack = function(movieTitle) {
+  var movieTitle = movieTitle.replaceAll(" ", "")
   const settings = {
     "async": true,
     "crossDomain": true,
-    "url": `https://imdb8.p.rapidapi.com/title/get-sound-tracks?tconst=${specialId}`,
+    "url": `https://shazam.p.rapidapi.com/search?term=${movieTitle}%20soundtrack&locale=en-US&offset=0&limit=5`,
     "method": "GET",
     "headers": {
-      "x-rapidapi-host": "imdb8.p.rapidapi.com",
+      "x-rapidapi-host": "shazam.p.rapidapi.com",
       "x-rapidapi-key": "229d984177msh18d191b1335378fp137dcejsn7c92ab2acfaf"
     }
   };
   
   $.ajax(settings).done(function (soundTrackData) {
-    console.log(soundTrackData);
-    var albumName = soundTrackData.soundtracks[0].name
-    var albumDetails = soundTrackData.soundtracks.comment 
-    var albumImg = soundTrackData.soundtracks[0].products[0].image.url
-    var ASINKEY = soundTrackData.soundtracks[0].products[0].productId.key
-    var albumUrl = `www.amazon.com/dp/${ASINKEY}`
+    // console.log(soundTrackData);
+    var albumName = soundTrackData.tracks.hits[0].track.title
+    var albumDetails = soundTrackData.tracks.hits[0].track.subtitle
+    var albumImg = soundTrackData.tracks.hits[0].track.images.coverart
+    var albumUrl = soundTrackData.tracks.hits[0].track.url
     $("#soundtrack-title").text(albumName)
     $("#soundtrack-image").attr("src", albumImg)
     $("#soundtrack-details").text(albumDetails)
@@ -205,7 +201,32 @@ var getSoundTrack = function(specialId) {
     });
   });
 }
-// get movie quotes (API #3)
+// get movie trailer (API #3)
+var getTrailer = function (movieTitle) {
+  var movieTitle = movieTitle.replaceAll(" ", "");
+  var movieTitle = `${movieTitle}officialtrailer`
+  const settings = {
+    "async": true,
+    "crossDomain": true,
+    "url": `https://youtube-search-results.p.rapidapi.com/youtube-search/?q=${movieTitle}`,
+    "method": "GET",
+    "headers": {
+      "x-rapidapi-host": "youtube-search-results.p.rapidapi.com",
+      "x-rapidapi-key": "229d984177msh18d191b1335378fp137dcejsn7c92ab2acfaf"
+    }
+  };
+  
+  $.ajax(settings).done(function (trailerData) {
+    console.log(trailerData);
+    $("#video-title").text(trailerData.items[0].title)
+    var embedCode = trailerData.items[0].url.replace("https://www.youtube.com/watch?v=","")
+    var trailerLink = `https://www.youtube.com/embed/${embedCode}`
+    $("#trailer").attr("src", trailerLink)
+    $("#video-description").text(trailerData.items[0].description)
+    
+  });
+}
+// get movie quotes (API #4)
 var getQuotes = function(title) {
   $("#quote-items").html("");
   $("#movie-quotes-heading").removeClass("hidden");
@@ -247,9 +268,9 @@ var showMovie = function(movieData) {
   var tomatoesRate = (movieData.Ratings[1].Value).replace("%", "")
   parseInt(tomatoesRate)
   if (tomatoesRate <= 60) {
-    $("#tomatoes-rate").attr("src", "https://www.clipartmax.com/png/full/351-3516739_cherry-tomato-clipart-tomatoe-rotten-tomatoes-icon-png.png")
+    $("#tomatoes-rate-image").attr("src", "https://www.clipartmax.com/png/full/351-3516739_cherry-tomato-clipart-tomatoe-rotten-tomatoes-icon-png.png")
   } else if (tomatoesRate >= 60) {
-    $("#tomatoes-rate").attr("src", "https://www.clipartmax.com/png/full/50-503981_rotten-tomatoes-fresh-logo.png")
+    $("#tomatoes-rate-image").attr("src", "https://www.clipartmax.com/png/full/50-503981_rotten-tomatoes-fresh-logo.png")
   }
 }
 var showQuotes = function(quoteData) {

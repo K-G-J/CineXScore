@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
-  <title>Cine Score</title>
+<title>CineXScore</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
@@ -10,18 +9,13 @@
   <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">
   <link rel="stylesheet" href="assets/css/style.css">
 </head>
-<body id="mainPage" data-spy="scroll" data-target=".navbar" data-offset="60">
+<body id="top" data-spy="scroll" data-target=".navbar" data-offset="60">
 
   <!-- Navigation Menu -->
 <nav class="navbar navbar-default navbar-fixed-top">
   <div class="container">
     <div class="navbar-header">
-      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>                        
-      </button>
-      <a class="navbar-brand" href="#myPage">CineXScore</a>
+      <a class="navbar-brand">CineXScore</a>
     </div>
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav navbar-right">
@@ -43,9 +37,9 @@
 </div>
 
 <!-- hero image -->
-<section id="hero">
+<div id="hero">
   <img id="hero-image" src ="" />
-</section>
+</div>
 
 <main id="main" class=hidden>
 <!-- Container (main movie info) -->
@@ -90,7 +84,7 @@
   <div class="row">
     <div class="col-sm-4">
       <span id="rating-img">
-        <img id="tomatoes-rate" src="https://www.pinpng.com/pngs/m/339-3397388_movie-film-clipart-png-download-film-reel-clip.png"/>
+        <img id="tomatoes-rate-image" src="https://www.pinpng.com/pngs/m/339-3397388_movie-film-clipart-png-download-film-reel-clip.png"/>
       </span>
     </div>
     <div class="col-sm-8 text-center">
@@ -104,7 +98,7 @@
 
 <!-- Container (Sountrack Section) -->
 <div id="soundtrack" class="container-fluid text-center bg-grey">
-  <h2>Sountrack</h2><br>
+  <h2>Soundtrack</h2><br>
   <h4 id="soundtrack-title"></h4>
   <div class="container-fluid text-center">
     <img id="soundtrack-image" src="https://www.pinclipart.com/picdir/middle/572-5727023_icon-music-and-film-clipart.png"/>
@@ -119,15 +113,16 @@
   <div id="quote-items" class="carousel slide text-center" data-ride="carousel"></div>
 </div>
 
-<!-- Container (Featured Video Section)-->
+<!-- Container (Trailer Section)-->
 <div id=video-container>
-  <iframe id="promo-video" width="560" height="315" src="" frameborder="0" allowfullscreen></iframe>
-  <h4 id="video-description"></h4>
+  <h4 id="video-title"></h4>
+  <iframe id="trailer" width="560" height="315" src="" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+  <p id="video-description"></p>
 </div>
 
 <!-- Footer -->
 <footer class="container-fluid text-center">
-  <a href="#mainPage" title="To Top">
+  <a href="#top" title="To Top">
     <span class="glyphicon glyphicon-chevron-up"> Top </span>
   </a>
 </footer>
