@@ -95,11 +95,34 @@ $input.addEventListener('keyup', function(){
             getSoundTrack(movieTitle);
             getTrailer(movieTitle);
             var movieObj = {
-              title: movieTitle
+              title: movieTitle,
             }
-            saveSearch(movieObj);
+            var pastSearches = loadPastSearches();
+            var alreadySearched = false 
+            if (pastSearches) {
+              pastSearches.forEach (s => {
+                if (s.title === movieTitle) {
+                  alreadySearched = true;
+                  }
+              })
+          }
+          if (!alreadySearched) {
+            for (var item of pastSearches) {
+              let searchEl = document.createElement("a")
+              let pastSearchTitle = item.title
+              $(searchEl).text(pastSearchTitle)
+              $(searchEl).addClass("past-search-item");
+              $("#past-search-dropdown").append(searchEl)
+              $(searchEl).click(function (e) { 
+                e.preventDefault();
+                let title = pastSearchTitle
+                getMovie(title)
+                getQuotes(title)
+              });
+              }
+            }
+            saveSearch(movieObj)
             showMovie(movieData);
-            return movieData 
         });
     } else {
         alert("Error: title not found!");
@@ -282,38 +305,18 @@ var showQuotes = function(quoteData) {
   });
 }
 
-// dropdown past search buttons 
+// save past search
 var saveSearch = function (movieObj) {
+  var pastSearches = loadPastSearches();
+  pastSearches.push(movieObj);
+  localStorage.setItem("movieObjects", JSON.stringify(pastSearches))
+}
+loadPastSearches = function() {
   var pastSearches = JSON.parse(localStorage.getItem("movieObjects"));
   if (!pastSearches || !Array.isArray(pastSearches)) {
     var pastSearches = []
   }
-  pastSearches.push(movieObj);
-  localStorage.setItem("movieObjects", JSON.stringify(pastSearches))
-  // check if search button already exists 
-  let alreadySearched = false;
-  if (pastSearches) {
-    pastSearches.forEach (s => {
-      if (s.title === movieObj.title) {
-        alreadySearched = true;
-      }
-    })
-  }
-  if (!alreadySearched) {
-    for (var pastSearch of pastSearches) {
-      let searchEl = document.createElement("a")
-      let pastSearchTitle = pastSearch.title
-      $(searchEl).text(pastSearchTitle)
-      $(searchEl).addClass("past-search-item");
-      $("#past-search-dropdown").append(searchEl)
-      $(searchEl).click(function (e) { 
-        e.preventDefault();
-        let title = pastSearchTitle
-        getMovie(title)
-        getQuotes(title)
-      });
-    }
-  }
+  return pastSearches;
 }
 
 // dropdown favorite soundtrack buttons 
@@ -324,24 +327,13 @@ var saveTrack = function(trackObj) {
   }
   faveTracks.push(trackObj);
   localStorage.setItem("trackObjects", JSON.stringify(faveTracks))
-  // check if track button already exists 
-  let alreadySearched = false;
-  if (faveTracks) {
-    faveTracks.forEach (t => {
-      if (t.title === trackObj.name) {
-        alreadySearched = true;
-      }
-    })
-  }
-  if (!alreadySearched) {
-    for (var track of faveTracks) {
-      let trackEl = document.createElement("a")
-      $(trackEl).addClass("fave-track");
-      $(trackEl).text(track.name);
-      $(trackEl).attr("href", track.url);
-      $(trackEl).attr("target", "_blank")
-      $("#favorite-tracks-dropdown").append(trackEl)
-    }
+  for (var track of faveTracks) {
+    let trackEl = document.createElement("a")
+    $(trackEl).addClass("fave-track");
+    $(trackEl).text(track.name);
+    $(trackEl).attr("href", track.url);
+    $(trackEl).attr("target", "_blank")
+    $("#favorite-tracks-dropdown").append(trackEl)
   }
 }
 
@@ -349,10 +341,10 @@ var saveTrack = function(trackObj) {
 $("#clear-searches").click(function (e) { 
   e.preventDefault();
   [...$(".past-search-item")].map(thisSearch => thisSearch.remove());
-  localStorage.clear("movieObjects");
+  localStorage.removeItem("movieObjects");
 });
 $("#clear-favorites").click(function (e) { 
   e.preventDefault();
   [...$(".fave-track")].map(thisTrack => thisTrack.remove());
-  localStorage.clear("trackObjects");
+  localStorage.removeItem("trackObjects");
 });
