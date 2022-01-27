@@ -241,7 +241,7 @@ var getTrailer = function (movieTitle) {
   };
   
   $.ajax(settings).done(function (trailerData) {
-    console.log(trailerData);
+    // console.log(trailerData);
     $("#video-title").text(trailerData.items[0].title)
     var embedCode = trailerData.items[0].url.replace("https://www.youtube.com/watch?v=","")
     var trailerLink = `https://www.youtube.com/embed/${embedCode}`
@@ -267,7 +267,7 @@ var getQuotes = function(title) {
   };
   
   $.ajax(settings).done(function (quoteData) {
-    console.log(quoteData);
+    // console.log(quoteData);
     showQuotes(quoteData)
   })
   .fail(function(xhr, status, error) {
