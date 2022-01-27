@@ -7,24 +7,28 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
   <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" type="text/css">
   <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body id="top" data-spy="scroll" data-target=".navbar" data-offset="60">
 
   <!-- Navigation Menu -->
 <nav class="navbar navbar-default navbar-fixed-top">
-  <div class="container">
-    <div class="navbar-header">
-      <a class="navbar-brand">CineXScore</a>
-    </div>
-    <div class="collapse navbar-collapse" id="myNavbar">
-      <ul class="nav navbar-nav navbar-right">
-        <li><a id="past-searches">Past Searches</a></li>
-        <li><a id="favorite-soundtracks">Favorite Soundtracks</a></li>
-      </ul>
+      <a id="logo" class="navbar-brand">CineXScore</a>
+  <div class="dropdown navbar-brand">Past Searches
+    <i class="fa fa-caret-down"></i>
+    <div id="past-search-dropdown" class="dropdown-content">
+      <a id="clear-searches">Clear</a>
     </div>
   </div>
+  <div class="dropdown navbar-brand">Favorite Tracks
+    <i class="fa fa-caret-down"></i>
+    <div id="favorite-tracks-dropdown" class="dropdown-content">
+      <a id="clear-favorites">Clear</a>
+    </div>
+  </div> 
 </nav>
+
 
 <!-- Movie Search Section -->
 <div id="movie-search" class="jumbotron text-center">

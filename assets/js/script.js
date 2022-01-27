@@ -282,7 +282,7 @@ var showQuotes = function(quoteData) {
   });
 }
 
-// create dropdown past search buttons 
+// dropdown past search buttons 
 var saveSearch = function (movieObj) {
   var pastSearches = JSON.parse(localStorage.getItem("movieObjects"));
   if (!pastSearches || !Array.isArray(pastSearches)) {
@@ -290,15 +290,33 @@ var saveSearch = function (movieObj) {
   }
   pastSearches.push(movieObj);
   localStorage.setItem("movieObjects", JSON.stringify(pastSearches))
+  // check if search button already exists 
+  let alreadySearched = false;
+  if (pastSearches) {
+    pastSearches.forEach (s => {
+      if (s.title === movieObj.title) {
+        alreadySearched = true;
+      }
+    })
+  }
+  if (!alreadySearched) {
+    for (var pastSearch of pastSearches) {
+      let searchEl = document.createElement("a")
+      let pastSearchTitle = pastSearch.title
+      $(searchEl).text(pastSearchTitle)
+      $(searchEl).addClass("past-search-item");
+      $("#past-search-dropdown").append(searchEl)
+      $(searchEl).click(function (e) { 
+        e.preventDefault();
+        let title = pastSearchTitle
+        getMovie(title)
+        getQuotes(title)
+      });
+    }
+  }
 }
 
-// function loadPastSearches() {
-//   var pastSearches = JSON.parse(localStorage.getItem("movieObjects"));
-//   if (!pastSearches || !Array.isArray(pastSearches)) return []
-//   else return pastSearches
-// } 
-
-// create dropdown favorite soundtrack buttons 
+// dropdown favorite soundtrack buttons 
 var saveTrack = function(trackObj) {
   var faveTracks = JSON.parse(localStorage.getItem("trackObjects"));
   if (!faveTracks || !Array.isArray(faveTracks)) {
@@ -306,4 +324,35 @@ var saveTrack = function(trackObj) {
   }
   faveTracks.push(trackObj);
   localStorage.setItem("trackObjects", JSON.stringify(faveTracks))
+  // check if track button already exists 
+  let alreadySearched = false;
+  if (faveTracks) {
+    faveTracks.forEach (t => {
+      if (t.title === trackObj.name) {
+        alreadySearched = true;
+      }
+    })
+  }
+  if (!alreadySearched) {
+    for (var track of faveTracks) {
+      let trackEl = document.createElement("a")
+      $(trackEl).addClass("fave-track");
+      $(trackEl).text(track.name);
+      $(trackEl).attr("href", track.url);
+      $(trackEl).attr("target", "_blank")
+      $("#favorite-tracks-dropdown").append(trackEl)
+    }
+  }
 }
+
+// clear searches and favorite tracks
+$("#clear-searches").click(function (e) { 
+  e.preventDefault();
+  [...$(".past-search-item")].map(thisSearch => thisSearch.remove());
+  localStorage.clear("movieObjects");
+});
+$("#clear-favorites").click(function (e) { 
+  e.preventDefault();
+  [...$(".fave-track")].map(thisTrack => thisTrack.remove());
+  localStorage.clear("trackObjects");
+});
