@@ -129,7 +129,7 @@ var getMovie = function(title) {
     }
 })
 .catch(function(error) {
-    alert("Unable to connect to cine score app");
+    alert("Unable to connect to CineXScore app");
     console.log(error)
     });
 };
@@ -213,6 +213,7 @@ var getSoundTrack = function(movieTitle) {
     var albumUrl = soundTrackData.tracks.hits[0].track.url
     $("#soundtrack-title").text(albumName)
     $("#soundtrack-image").attr("src", albumImg)
+    $("#soundtrack-link").attr("href", albumUrl)
     $("#soundtrack-details").text(albumDetails)
     var trackObj = {
       name: albumName,
@@ -334,14 +335,12 @@ var saveTrack = function(trackObj) {
     })
 }
 if (!alreadySearched) {
-  for (var track of faveTracks) {
     let trackEl = document.createElement("a")
     $(trackEl).addClass("fave-track");
-    $(trackEl).text(track.name);
-    $(trackEl).attr("href", track.url);
+    $(trackEl).text(trackObj.name);
+    $(trackEl).attr("href", trackObj.url);
     $(trackEl).attr("target", "_blank")
     $("#favorite-tracks-dropdown").append(trackEl)
-  }
 } 
 faveTracks.push(trackObj);
 localStorage.setItem("trackObjects", JSON.stringify(faveTracks))
