@@ -10,16 +10,16 @@ $("input[name='movie-search-title']").keydown(function (e){
   }
 })
 // movie input autocomplete 
-var $input = document.getElementById('searchBox');
+var searchInput = document.getElementById('searchBox');
 var baseUrl = "http://sg.media-imdb.com/suggests/";
-var $result = document.getElementById('result');
-$input.addEventListener('keyup', function(){
+var result = document.getElementById('result');
+searchInput.addEventListener('keyup', function(){
   $("#result").removeClass("hidden");
 	//clearing blank spaces from input
-	var cleanInput = $input.value.replace(/\s/g, "");
+	var cleanInput = searchInput.value.replace(/\s/g, "");
 	//clearing result div if the input box in empty
 	if(cleanInput.length === 0) {
-		$result.innerHTML = "";
+		result.innerHTML = "";
 	}
 	if(cleanInput.length > 0) {
 		var queryUrl = baseUrl + cleanInput[0].toLowerCase() + "/" 
@@ -34,7 +34,7 @@ $input.addEventListener('keyup', function(){
     }).done(function (result) {
       //clearing result div if there is a valid response
       if(result.d.length > 0) {
-        $result.innerHTML = "";
+        result.innerHTML = "";
       }
       for(var i = 0; i < result.d.length; i++) {
         let category = result.d[i].id.slice(0,2);
@@ -77,7 +77,7 @@ $input.addEventListener('keyup', function(){
 });
 
 // primary movie information (API #1)
-  var getMovie = function(title) {
+var getMovie = function(title) {
     $("#result").addClass("hidden")
     $("#main").removeClass("hidden");
     $("#search-form").trigger("reset");
@@ -276,6 +276,7 @@ var getQuotes = function(title) {
     $("#movie-quotes-heading").addClass("hidden");
   });
 }
+// change the page HTML to show movie information
 var showMovie = function(movieData) {
   $("#movie-title").text(movieData.Title)
   $("#year-rating").text(`${movieData.Year}, ${movieData.Rated}`)
@@ -296,6 +297,7 @@ var showMovie = function(movieData) {
     $("#tomatoes-rate-image").attr("src", "https://www.clipartmax.com/png/full/50-503981_rotten-tomatoes-fresh-logo.png")
   }
 }
+// if there are famous quotes display those on page 
 var showQuotes = function(quoteData) {
   $("#movie-quotes-heading").text("Movie Quotes")
     quoteData.forEach(quoteItem => {
@@ -304,7 +306,6 @@ var showQuotes = function(quoteData) {
     $(carouselItem).appendTo("#quote-items");
   });
 }
-
 // save past search
 var saveSearch = function (movieObj) {
   var pastSearches = loadPastSearches();
@@ -318,15 +319,21 @@ loadPastSearches = function() {
   }
   return pastSearches;
 }
-
 // dropdown favorite soundtrack buttons 
 var saveTrack = function(trackObj) {
   var faveTracks = JSON.parse(localStorage.getItem("trackObjects"));
   if (!faveTracks || !Array.isArray(faveTracks)) {
     var faveTracks = []
   }
-  faveTracks.push(trackObj);
-  localStorage.setItem("trackObjects", JSON.stringify(faveTracks))
+  var alreadySearched = false 
+  if (faveTracks) {
+    faveTracks.forEach (t => {
+      if (t.name === trackObj.name) {
+        alreadySearched = true;
+        }
+    })
+}
+if (!alreadySearched) {
   for (var track of faveTracks) {
     let trackEl = document.createElement("a")
     $(trackEl).addClass("fave-track");
@@ -335,8 +342,26 @@ var saveTrack = function(trackObj) {
     $(trackEl).attr("target", "_blank")
     $("#favorite-tracks-dropdown").append(trackEl)
   }
+} 
+faveTracks.push(trackObj);
+localStorage.setItem("trackObjects", JSON.stringify(faveTracks))
 }
-
+// populate favorites list when page loads
+var populateFavorites = function() {
+  var faveTracks = JSON.parse(localStorage.getItem("trackObjects"));
+  if (!faveTracks || !Array.isArray(faveTracks)) {
+    var faveTracks = []
+  }
+  for (var track of faveTracks) {
+    let trackEl = document.createElement("a")
+    $(trackEl).addClass("fave-track");
+    $(trackEl).text(track.name);
+    $(trackEl).attr("href", track.url);
+    $(trackEl).attr("target", "_blank")
+    $("#favorite-tracks-dropdown").append(trackEl)
+  }
+} 
+$(window).load(populateFavorites())
 // clear searches and favorite tracks
 $("#clear-searches").click(function (e) { 
   e.preventDefault();
