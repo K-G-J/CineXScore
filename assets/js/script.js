@@ -12,14 +12,14 @@ $("input[name='movie-search-title']").keydown(function (e){
 // movie input autocomplete 
 var searchInput = document.getElementById('searchBox');
 var baseUrl = "http://sg.media-imdb.com/suggests/";
-var result = document.getElementById('result');
+var resultText = document.getElementById('result');
 searchInput.addEventListener('keyup', function(){
   $("#result").removeClass("hidden");
 	//clearing blank spaces from input
 	var cleanInput = searchInput.value.replace(/\s/g, "");
 	//clearing result div if the input box in empty
 	if(cleanInput.length === 0) {
-		result.innerHTML = "";
+		resultText.innerHTML = "";
 	}
 	if(cleanInput.length > 0) {
 		var queryUrl = baseUrl + cleanInput[0].toLowerCase() + "/" 
@@ -34,7 +34,7 @@ searchInput.addEventListener('keyup', function(){
     }).done(function (result) {
       //clearing result div if there is a valid response
       if(result.d.length > 0) {
-        result.innerHTML = "";
+        resultText.innerHTML = "";
       }
       for(var i = 0; i < result.d.length; i++) {
         let category = result.d[i].id.slice(0,2);
@@ -75,6 +75,7 @@ searchInput.addEventListener('keyup', function(){
 		});
 	}
 });
+
 var loadPastSearches = function() {
   var pastSearches = JSON.parse(localStorage.getItem("movieObjects"));
   if (!pastSearches || !Array.isArray(pastSearches)) return []
@@ -215,26 +216,34 @@ var getSoundTrack = function(movieTitle) {
   };
   
   $.ajax(settings).done(function (soundTrackData) {
-    // console.log(soundTrackData);
-    var albumName = soundTrackData.tracks.hits[0].track.title
-    var albumDetails = soundTrackData.tracks.hits[0].track.subtitle
-    var albumImg = soundTrackData.tracks.hits[0].track.images.coverart
-    var albumUrl = soundTrackData.tracks.hits[0].track.url
-    $("#soundtrack-title").text(albumName)
-    $("#soundtrack-image").attr("src", albumImg)
-    $("#soundtrack-link").attr("href", albumUrl)
-    $("#soundtrack-details").text(albumDetails)
-    var trackObj = {
-      name: albumName,
-      url: albumUrl
-    };
-    $("#save-to-favorites").click(function (e) { 
-      e.preventDefault();
-      saveTrack(trackObj)
-    });
+    console.log(soundTrackData);
+    if (!Object.keys(soundTrackData).length) {
+      console.log("no soundtrack data for this query")
+      $("#soundtrack-title").html("Sorry no soundtrack found &#128533;")
+      $("#soundtrack-image").attr("src", "https://cdn-icons.flaticon.com/png/512/3384/premium/3384522.png?token=exp=1643342400~hmac=54c0424bf9b18cc44e146041de229ab8")
+      $("#soundtrack-details").text("")
+      $("#save-to-favorites").addClass("hidden")
+    } else {
+      var albumName = soundTrackData.tracks.hits[0].track.title
+      var albumDetails = soundTrackData.tracks.hits[0].track.subtitle
+      var albumImg = soundTrackData.tracks.hits[0].track.images.coverart
+      var albumUrl = soundTrackData.tracks.hits[0].track.url
+      $("#soundtrack-title").text(albumName)
+      $("#soundtrack-image").attr("src", albumImg)
+      $("#soundtrack-link").attr("href", albumUrl)
+      $("#soundtrack-details").text(albumDetails)
+      var trackObj = {
+        name: albumName,
+        url: albumUrl
+      };
+      $("#save-to-favorites").click(function (e) { 
+        e.preventDefault();
+        saveTrack(trackObj)
+      });
+    }
   });
 }
-// get movie trailer (API #3)
+// get movie trailer (API #4)
 var getTrailer = function (movieTitle) {
   var movieTitle = movieTitle.replaceAll(" ", "");
   var movieTitle = `${movieTitle}officialtrailer`
@@ -259,7 +268,7 @@ var getTrailer = function (movieTitle) {
     
   });
 }
-// get movie quotes (API #4)
+// get movie quotes (API #5)
 var getQuotes = function(title) {
   $("#quote-items").html("");
   $("#movie-quotes-heading").removeClass("hidden");
@@ -282,7 +291,7 @@ var getQuotes = function(title) {
   .fail(function(xhr, status, error) {
     //Ajax request failed.
     var errorMessage = xhr.status + ': ' + xhr.statusText
-    console.log(`Error - ${errorMessage}`);
+    console.log(`No quotes available for this query - ${errorMessage}`);
     $("#movie-quotes-heading").addClass("hidden");
   });
 }
@@ -311,9 +320,9 @@ var showMovie = function(movieData) {
 var showQuotes = function(quoteData) {
   $("#movie-quotes-heading").text("Movie Quotes")
     quoteData.forEach(quoteItem => {
-    var carouselItem = document.createElement("div")
-    $(carouselItem).html(`<h4 class='quote'>"${quoteItem.quote}"<br><br><span class='quote-character'>-${quoteItem.character}</span></h4><br>`)
-    $(carouselItem).appendTo("#quote-items");
+    var quoteText = document.createElement("div")
+    $(quoteText).html(`<h4 class='quote'>"${quoteItem.quote}"<br><br><span class='quote-character'>-${quoteItem.character}</span></h4><br>`)
+    $(quoteText).appendTo("#quote-items");
   });
 }
 // save past search
