@@ -1,3 +1,6 @@
+$(window).on("load", populateFavorites);
+$(window).on("load", populateSearches);
+
 var sendTitle = function() {
   var title = $("input[name='movie-search-title']").val();
     getMovie(title)
@@ -75,7 +78,16 @@ searchInput.addEventListener('keyup', function(){
 		});
 	}
 });
-
+var loadPastSearches = function() {
+  var pastSearches = JSON.parse(localStorage.getItem("movieObjects"));
+  if (!pastSearches || !Array.isArray(pastSearches)) return []
+  else return pastSearches;
+}
+var loadFaveTracks = function() {
+  var faveTracks = JSON.parse(localStorage.getItem("trackObjects"));
+  if(!faveTracks || !Array.isArray(faveTracks)) return []
+  else return faveTracks
+}
 // primary movie information (API #1)
 var getMovie = function(title) {
     $("#result").addClass("hidden")
@@ -97,8 +109,8 @@ var getMovie = function(title) {
             var movieObj = {
               title: movieTitle,
             }
-            var pastSearches = loadPastSearches();
-            var alreadySearched = false 
+            let pastSearches = loadPastSearches();
+            let alreadySearched = false 
             if (pastSearches) {
               pastSearches.forEach (s => {
                 if (s.title === movieTitle) {
@@ -107,6 +119,7 @@ var getMovie = function(title) {
               })
           }
           if (!alreadySearched) {
+            saveSearch(movieObj)
             for (var item of pastSearches) {
               let searchEl = document.createElement("a")
               let pastSearchTitle = item.title
@@ -121,7 +134,6 @@ var getMovie = function(title) {
               });
               }
             }
-            saveSearch(movieObj)
             showMovie(movieData);
         });
     } else {
@@ -309,24 +321,14 @@ var showQuotes = function(quoteData) {
 }
 // save past search
 var saveSearch = function (movieObj) {
-  var pastSearches = loadPastSearches();
+  let pastSearches = loadPastSearches();
   pastSearches.push(movieObj);
   localStorage.setItem("movieObjects", JSON.stringify(pastSearches))
 }
-loadPastSearches = function() {
-  var pastSearches = JSON.parse(localStorage.getItem("movieObjects"));
-  if (!pastSearches || !Array.isArray(pastSearches)) {
-    var pastSearches = []
-  }
-  return pastSearches;
-}
 // dropdown favorite soundtrack buttons 
 var saveTrack = function(trackObj) {
-  var faveTracks = JSON.parse(localStorage.getItem("trackObjects"));
-  if (!faveTracks || !Array.isArray(faveTracks)) {
-    var faveTracks = []
-  }
-  var alreadySearched = false 
+  let faveTracks = loadFaveTracks();
+  let alreadySearched = false 
   if (faveTracks) {
     faveTracks.forEach (t => {
       if (t.name === trackObj.name) {
@@ -341,16 +343,30 @@ if (!alreadySearched) {
     $(trackEl).attr("href", trackObj.url);
     $(trackEl).attr("target", "_blank")
     $("#favorite-tracks-dropdown").append(trackEl)
-} 
-faveTracks.push(trackObj);
-localStorage.setItem("trackObjects", JSON.stringify(faveTracks))
+    faveTracks.push(trackObj);
+    localStorage.setItem("trackObjects", JSON.stringify(faveTracks))
+  }
+}
+// populate past searches list when page loads 
+var populateSearches = function () {
+  let pastSearches = loadPastSearches();
+  for (var item of pastSearches) {
+    let searchEl = document.createElement("a")
+    let pastSearchTitle = item.title
+    $(searchEl).text(pastSearchTitle)
+    $(searchEl).addClass("past-search-item");
+    $("#past-search-dropdown").append(searchEl)
+    $(searchEl).click(function (e) { 
+      e.preventDefault();
+      let title = pastSearchTitle
+      getMovie(title)
+      getQuotes(title)
+    });
+  }
 }
 // populate favorites list when page loads
 var populateFavorites = function() {
-  var faveTracks = JSON.parse(localStorage.getItem("trackObjects"));
-  if (!faveTracks || !Array.isArray(faveTracks)) {
-    var faveTracks = []
-  }
+  let faveTracks = loadFaveTracks();
   for (var track of faveTracks) {
     let trackEl = document.createElement("a")
     $(trackEl).addClass("fave-track");
@@ -360,7 +376,7 @@ var populateFavorites = function() {
     $("#favorite-tracks-dropdown").append(trackEl)
   }
 } 
-$(document).ready(function() {populateFavorites()});
+$(window).on("load", populateFavorites);
 // clear searches and favorite tracks
 $("#clear-searches").click(function (e) { 
   e.preventDefault();

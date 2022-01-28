@@ -15,7 +15,7 @@
 
   <!-- Navigation Menu -->
 <nav class="navbar navbar-default navbar-fixed-top">
-      <a id="logo" class="navbar-brand">CineXScore</a>
+      <a id="logo" class="navbar-brand" onClick="window.location.reload();">CineXScore</a>
   <div class="dropdown navbar-brand">Past Searches
     <i class="fa fa-caret-down"></i>
     <div id="past-search-dropdown" class="dropdown-content">
@@ -55,7 +55,8 @@
       <h4 id="year-rating"></h4>
       <h4 id="genre"></h4><br>
       <p id="synopsis"></p>
-      <br><button href="#soundtrack" id="get-soundtrack" class="btn btn-default btn-lg">Get the soundtrack</button>
+      <br><button id="get-soundtrack" class="btn btn-default btn-lg" onclick="location.href ='#soundtrack';">Get the soundtrack
+      </button>
     </div>
     <div class="col-sm-4">
       <span id="movie-poster">
