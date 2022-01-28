@@ -220,7 +220,7 @@ var getSoundTrack = function(movieTitle) {
     if (!Object.keys(soundTrackData).length) {
       console.log("no soundtrack data for this query")
       $("#soundtrack-title").html("Sorry no soundtrack found &#128533;")
-      $("#soundtrack-image").attr("src", "https://cdn-icons.flaticon.com/png/512/3384/premium/3384522.png?token=exp=1643342400~hmac=54c0424bf9b18cc44e146041de229ab8")
+      $("#soundtrack-image").attr("src", "assets/images/music-search-icon.png")
       $("#soundtrack-details").text("")
       $("#save-to-favorites").addClass("hidden")
     } else {
@@ -232,6 +232,7 @@ var getSoundTrack = function(movieTitle) {
       $("#soundtrack-image").attr("src", albumImg)
       $("#soundtrack-link").attr("href", albumUrl)
       $("#soundtrack-details").text(albumDetails)
+      $("#save-to-favorites").removeClass("hidden")
       var trackObj = {
         name: albumName,
         url: albumUrl
@@ -311,9 +312,9 @@ var showMovie = function(movieData) {
   var tomatoesRate = (movieData.Ratings[1].Value).replace("%", "")
   parseInt(tomatoesRate)
   if (tomatoesRate <= 60) {
-    $("#tomatoes-rate-image").attr("src", "https://www.clipartmax.com/png/full/351-3516739_cherry-tomato-clipart-tomatoe-rotten-tomatoes-icon-png.png")
+    $("#tomatoes-rate-image").attr("src", "assets/images/rotten-tomato.png")
   } else if (tomatoesRate >= 60) {
-    $("#tomatoes-rate-image").attr("src", "https://www.clipartmax.com/png/full/50-503981_rotten-tomatoes-fresh-logo.png")
+    $("#tomatoes-rate-image").attr("src", "assets/images/fresh-tomato.png")
   }
 }
 // if there are famous quotes display those on page 
