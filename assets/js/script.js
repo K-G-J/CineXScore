@@ -1,6 +1,3 @@
-$(window).on("load", populateFavorites);
-$(window).on("load", populateSearches);
-
 var sendTitle = function() {
   var title = $("input[name='movie-search-title']").val();
     getMovie(title)
@@ -81,7 +78,7 @@ searchInput.addEventListener('keyup', function(){
 var loadPastSearches = function() {
   var pastSearches = JSON.parse(localStorage.getItem("movieObjects"));
   if (!pastSearches || !Array.isArray(pastSearches)) return []
-  else return pastSearches;
+  else return pastSearches
 }
 var loadFaveTracks = function() {
   var faveTracks = JSON.parse(localStorage.getItem("trackObjects"));
@@ -364,6 +361,8 @@ var populateSearches = function () {
     });
   }
 }
+populateSearches();
+
 // populate favorites list when page loads
 var populateFavorites = function() {
   let faveTracks = loadFaveTracks();
@@ -376,7 +375,7 @@ var populateFavorites = function() {
     $("#favorite-tracks-dropdown").append(trackEl)
   }
 } 
-$(window).on("load", populateFavorites);
+populateFavorites();
 // clear searches and favorite tracks
 $("#clear-searches").click(function (e) { 
   e.preventDefault();
