@@ -118,21 +118,19 @@ var getMovie = function(title) {
           }
           if (!alreadySearched) {
             saveSearch(movieObj)
-            for (var item of pastSearches) {
-              let searchEl = document.createElement("a")
-              let pastSearchTitle = item.title
-              $(searchEl).text(pastSearchTitle)
-              $(searchEl).addClass("past-search-item");
-              $("#past-search-dropdown").append(searchEl)
-              $(searchEl).click(function (e) { 
-                e.preventDefault();
-                let title = pastSearchTitle
-                getMovie(title)
-                getQuotes(title)
-              });
-              }
-            }
-            showMovie(movieData);
+            let searchEl = document.createElement("a")
+            let pastSearchTitle = movieTitle
+            $(searchEl).text(pastSearchTitle)
+            $(searchEl).addClass("past-search-item");
+            $("#past-search-dropdown").append(searchEl)
+            $(searchEl).click(function (e) { 
+              e.preventDefault();
+              let title = pastSearchTitle
+              getMovie(title)
+              getQuotes(title)
+            });
+          }
+          showMovie(movieData);
         });
     } else {
         alert("Error: title not found!");
