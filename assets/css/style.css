@@ -78,10 +78,21 @@
     text-decoration: none;
     display: block;
     text-align: left;
+    border-radius: 60px;
   }
   
   .dropdown-content a:hover {
-    background-color: #fcbe11;
+    -webkit-border-radius: 60px;
+    border-radius: 60px;
+    border: none;
+    color: #eeeeee;
+    cursor: pointer;
+    display: inline-block;
+    font-family: sans-serif;
+    font-size: 20px;
+    text-align: center;
+    text-decoration: none;
+    animation: glowing 1300ms infinite;
   }
   
   .dropdown:hover .dropdown-content {
@@ -176,7 +187,7 @@
     border-radius: 0;
   }
   .btn {
-    background-color: #1c87c9;
+    background-color:var(--background);
     -webkit-border-radius: 60px;
     border-radius: 60px;
     border: none;
