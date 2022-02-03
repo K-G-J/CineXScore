@@ -16,6 +16,7 @@
     color: #fff;
     text-align: center;
     display: flex;
+    flex-wrap: wrap;
     -webkit-animation: glow 1s ease-in-out infinite alternate;
     -moz-animation: glow 1s ease-in-out infinite alternate;
     animation: glow 1s ease-in-out infinite alternate;
@@ -30,6 +31,9 @@
   }
   .navbar-1{
     margin-left: 20em;
+  }
+  #movie-search {
+    margin-top: 2em;
   }
   #main {
     background-color: var(--background);
