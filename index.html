@@ -1,142 +1,153 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
+
 <head>
-<title>CineXScore</title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-  <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" type="text/css">
-  <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-  <link rel="stylesheet" href="assets/css/style.css">
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>CineXScore</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet"
+        id="bootstrap-css">
+    <link rel='stylesheet' href='https://fonts.googleapis.com/icon?family=Material+Icons'>
+    <link href="https://fonts.googleapis.com/css?family=Poppins:400,400i,500,500i,600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
 </head>
-<body id="top" data-spy="scroll" data-target=".navbar" data-offset="60">
 
-  <!-- Navigation Menu -->
-<nav class="navbar navbar-default navbar-fixed-top">
-      <a id="logo" class="navbar-brand" onClick="window.location.reload();">CineXScore</a>
-  <div class="dropdown navbar-brand">Past Searches
-    <i class="fa fa-caret-down"></i>
-    <div id="past-search-dropdown" class="dropdown-content">
-      <a id="clear-searches">Clear</a>
+<body>
+    <div class="container p-0 text-white bg-dark">
+        <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow text-center">
+            <a id="logo" class="navbar-brand col-sm-3 col-md-2 mr-0" href="index.html"
+                onClick="window.location.reload();"><span class="l-gray">
+                    C</span>ine<span class="red">X</span><span class="l-gray">S</span>core</a>
+            <input id="searchBox" name="movie-search-title" type="text" class="form-control" size="15"
+                placeholder="movie title">
+            <button id="search-form" type='button' class="btn btn-danger" onclick="sendTitle()">Search</button>
+            <div id="result"></div>
+        </nav>
+
+        <div class="container-fluid">
+            <div class="row">
+                <nav class="col-md-2 d-none d-md-block bg-dark sidebar text-white">
+                    <div class="sidebar-sticky">
+                        <ul class="nav flex-column">
+                            <li class="nav-item">
+                                <a class="nav-link active" href="#">
+                                    <span data-feather="home"></span>
+                                    <i class="material-icons">movie</i> Videos <span class="sr-only">(current)</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">
+                                    <span data-feather="file"></span>
+                                    <i class="material-icons">videocam</i> Past Searches
+                                </a>
+                            </li>
+                        </ul>
+                        <hr />
+                        <ul class="nav flex-column mb-2">
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">
+                                    <span data-feather="file-text"></span>
+                                    <i class="material-icons">perm_media</i> Favorite Tracks
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">
+                                    <span data-feather="file-text"></span>
+                                    <i class="material-icons">watch_later</i> Watch Later
+                                </a>
+                            </li>
+
+                            <hr />
+
+                            <li id="rating" class="nav-item">
+                                <a class="nav-link">
+                                    <span id="rating-img">
+                                        <img id="tomatoes-rate-image" src="assets/images/movie-reel-clip.png" />
+                                    </span>
+                                    <p>Score</p>
+                                    <h4 id="imdb-rate"></h4>
+                                    <h4 id="tomatoes-rate"></h4>
+                                    <h4 id="metacritic-rate"></h4>
+                                </a>
+                            </li>
+
+                        </ul>
+                    </div>
+                </nav>
+
+                <main role="main" class="col-md-10 ml-sm-auto col-lg-10 px-5 movie_list">
+                    <div>
+                        <h1>Movies</h1>
+                    </div>
+
+                    <!-- Movie Card Start -->
+
+                    <div class="colom col-sm-12">
+                        <div class="card-header">
+                            <div class="card-header-icon">
+                                <iframe class="card-header" id="trailer" width="850" height="650" src=""
+                                    title="YouTube video player" frameborder="0"
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                    allowfullscreen></iframe>
+                                <p id="video-description"></p>
+                            </div>
+                        </div>
+                        <!-- Container (Movie Quotes Section)-->
+                        <div id="movie-quotes" class="container-fluid text-center">
+                            <h2 id="movie-quotes-heading"></h2>
+                            <div id="quote-items" class="carousel slide text-center"></div>
+                        </div>
+                        <div class="card-movie-content">
+                            <div id="main" class="card-movie-content-head">
+                                <a href="#">
+                                    <h3 class="card-movie-title" id="movie-title">Movie Name</h3>
+                                </a>
+                                <div class="ratings"><span id="imdb-rate"></span></div>
+                            </div>
+
+                            <div class="card-movie-info">
+                                <div class="movie-running-time">
+                                    <label id="genre">Last update</label>
+                                    <span id="synopsis">Sun 8 Sept - 10:00PM</span>
+                                </div>
+
+                                <div class="movie-running-time">
+                                    <label>Running time</label>
+                                    <span>2hr 09min</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="colom col-sm-12">
+                        <div class="card-header">
+                            <img id="hero-image" class="card-header" src="" />
+                        </div>
+                        <div class="card-movie-content">
+                            <div class="card-movie-info">
+                                <div class="movie-running-time">
+                                    <label id="genre">Last update</label>
+                                    <span id="synopsis">Sun 8 Sept - 10:00PM</span>
+                                </div>
+
+                                <div class="movie-running-time">
+                                    <label>Running time</label>
+                                    <span>2hr 09min</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Movie Card End -->
+                </main>
+            </div>
+        </div>
     </div>
-  </div>
-  <div class="dropdown navbar-brand">Favorite Tracks
-    <i class="fa fa-caret-down"></i>
-    <div id="favorite-tracks-dropdown" class="dropdown-content">
-      <a id="clear-favorites">Clear</a>
-    </div>
-  </div> 
-</nav>
-
-
-<!-- Movie Search Section -->
-<div id="movie-search" class="jumbotron text-center">
-  <h1>Search for a movie!</h1> 
-  <form id="search-form">
-    <input id="searchBox" name="movie-search-title" type="text" class="form-control" size="50" placeholder="movie title"/>
-    <button id="searchBtn" type='button' class="btn btn-danger" onclick="sendTitle()">Search</button>
-  </form>
-  <div id="result"></div>
-</div>
-
-<!-- hero image -->
-<div id="hero">
-  <img id="hero-image" src ="" />
-</div>
-
-<main id="main" class=hidden>
-<!-- Container (primary movie info) -->
-<div id="movie-info" class="container-fluid">
-  <div class="row">
-    <div class="col-sm-8">
-      <h2 id="movie-title"></h2><br>
-      <h4 id="year-rating"></h4>
-      <h4 id="genre"></h4><br>
-      <p id="synopsis"></p>
-      <br><button id="get-soundtrack" class="btn btn-default btn-lg" onclick="location.href ='#soundtrack';">Get the soundtrack
-      </button>
-    </div>
-    <div class="col-sm-4">
-      <span id="movie-poster">
-        <img id="poster" src="" />
-      </span>
-    </div>
-  </div>
-</div>
-
-<!-- Container (cast) -->
-<div id="cast" class="container-fluid bg-grey">
-  <div class="row">
-    <div id="cast-icon" class="col-sm-4">
-      <span>
-        <img id="cast-image" src="assets/images/cast-image.png" />
-      </span>
-    </div>
-    <div class="col-sm-8">
-      <h2>Cast</h2><br>
-      <h4 id="cast-list"></h4><br>
-      <p id="director">
-      </p>
-      <p id="writer">
-      </p>
-    </div>
-  </div>
-</div>
-
-<!-- Container (Score Section) -->
-<div id="rating" class="container-fluid">
-  <div class="row">
-    <div class="col-sm-4">
-      <span id="rating-img">
-        <img id="tomatoes-rate-image" src="assets/images/movie-reel-clip.png"/>
-      </span>
-    </div>
-    <div class="col-sm-8 text-center">
-      <h2>SCORE</h2><br>
-      <h4 id="imdb-rate"></h4><br>
-      <h4 id="tomatoes-rate"></h4><br>
-      <h4 id="metacritic-rate"></h4><br>
-    </div>
-  </div>
-</div>
-
-<!-- Container (Sountrack Section) -->
-<div id="soundtrack" class="container-fluid text-center bg-grey">
-  <h2>Soundtrack</h2><br>
-  <h4 id="soundtrack-title">Sorry no soundtrack found &#128533;</h4>
-  <div class="container-fluid text-center">
-    <a id="soundtrack-link" href="" target="_blank">
-      <img id="soundtrack-image" src="assets/images/music-search-icon.png"/>
-    </a>
-    <p id="soundtrack-details"></p>
-    <button id="save-to-favorites" class="btn btn-default btn-lg">Save to favorites!</button>
-  </div>
-</div>
-
-<!-- Container (Movie Quotes Section)-->
-<div id="movie-quotes" class="container-fluid text-center">
-  <h2 id="movie-quotes-heading"></h2>
-  <div id="quote-items" class="carousel slide text-center"></div>
-</div>
-
-<!-- Container (Trailer Section)-->
-<div id=video-container>
-  <h4 id="video-title"></h4>
-  <iframe id="trailer" width="860" height="615" src="" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-  <p id="video-description"></p>
-</div>
-
-<!-- Footer -->
-<footer class="container-fluid text-center">
-  <a href="#top" title="To Top">
-    <span class="glyphicon glyphicon-chevron-up"> Top </span>
-  </a>
-</footer>
-</main>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="assets/js/script.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 </body>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-<script src="assets/js/script.js"></script>
+
 </html>
