@@ -10,10 +10,12 @@
     display: none;
   }
   #logo {
-    font-size: 80px;
-    margin-top: 20px;
+    font-size: 6.5em;
+    margin-top: .5em;
+    margin-bottom: .2em;
     color: #fff;
     text-align: center;
+    display: flex;
     -webkit-animation: glow 1s ease-in-out infinite alternate;
     -moz-animation: glow 1s ease-in-out infinite alternate;
     animation: glow 1s ease-in-out infinite alternate;
@@ -118,9 +120,6 @@
     color: var(--text);
   }
  
-
-
- /* all from template */
   body {
     font: 400 15px Lato, sans-serif;
     line-height: 1.8;
@@ -188,7 +187,8 @@
   }
   .logo {
     color: var(--background);
-    font-size: 200px;
+    font-size: 200rem;
+    display: flex;
   }
   .thumbnail {
     padding: 0 0 15px 0;
