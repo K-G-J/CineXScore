@@ -2,172 +2,191 @@
    .hidden {
     display: none;
   }
-  /* IMPORTANT FOR JS */
 
-  /* Styling I added (can change) */
-  #cast-image {
-    width: 80%;
-    height: 80%;
-  }
-  #tomatoes-rate-image {
-    width: 80%;
-    height: 80%;
-  }
-  #soundtrack-image {
-    width: 50%;
-    height: 50%;
-  }
-  #video-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    align-content: center;
-  }
-  .navbar {
-    display: flex;
-    flex-direction: row;
-    margin-bottom: 0;
-    background-color: #40376E;
-    border: 0;
-    font-size: 12px !important;
-    line-height: 1.42857143 !important;
-    letter-spacing: 4px;
-    border-radius: 0;
-    font-family: Montserrat, sans-serif;
-  }
-  .dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: #f9f9f9;
-    min-width: 160px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    z-index: 1;
-  }
-  .dropdown-content a {
-    float: none;
-    color: black;
-    padding: 12px 16px;
+h1,
+h2,
+h3,
+h4,
+h5,
+p {
+    font-weight: 400;
+}
+
+.G {
+    color: grey;
+}
+
+.X {
+    color: red;
+
+}
+
+ 
+a {
     text-decoration: none;
-    display: block;
-    text-align: left;
-  }
-  
-  .dropdown-content a:hover {
-    background-color: #ddd;
-  }
-  
-  .dropdown:hover .dropdown-content {
-    display: block;
-  }
-  footer .glyphicon {
-    font-size: 20px;
-    margin-bottom: 20px;
-    color: #40376E;
-  }
-  /* end of my own styling */
-
-
- /* all from template */
-  body {
-    font: 400 15px Lato, sans-serif;
-    line-height: 1.8;
-    color: #818181;
-  }
-  h2 {
-    font-size: 24px;
-    text-transform: uppercase;
-    color: #303030;
-    font-weight: 600;
-    margin-bottom: 30px;
-  }
-  h4 {
-    font-size: 19px;
-    line-height: 1.375em;
-    color: #303030;
-    font-weight: 400;
-    margin-bottom: 30px;
-  }  
-  .jumbotron {
-    background-color: #40376E;
-    color: #fff;
-    padding: 100px 25px;
-    font-family: Montserrat, sans-serif;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-  form {
-    width: 100%;
-    display: flex;
-    gap: 20px;
-    flex-direction: row;
-  }
-  #results {
-    display: flex;
-    flex-direction: column;
-    justify-content: left;
+    color: inherit;
+}
+ #tomatoes-rate-image {
     width: 20%;
-    text-align: left;
-    color: antiquewhite;
+    height: 20%;
   }
-  .container-fluid {
-    padding: 60px 50px;
-  }
-  .bg-grey {
-    background-color: #f6f6f6;
-  }
-  .logo-small {
-    color: #40376E;
-    font-size: 50px;
-  }
-  .logo {
-    color: #40376E;
-    font-size: 200px;
-  }
-  .thumbnail {
-    padding: 0 0 15px 0;
-    border: none;
-    border-radius: 0;
-  }
-  .thumbnail img {
-    width: 100%;
-    height: 100%;
-    margin-bottom: 10px;
-  }
-  .item h4 {
-    font-size: 19px;
-    line-height: 1.375em;
-    font-weight: 400;
-    font-style: italic;
-    margin: 70px 0;
-  }
-  .item span {
-    font-style: normal;
-  }
+a:hover {
+    color: #6ABCEA;
+}
 
-  @-webkit-keyframes slide {
-    0% {
-      opacity: 0;
-      -webkit-transform: translateY(70%);
-    } 
-    100% {
-      opacity: 1;
-      -webkit-transform: translateY(0%);
-    }
-  }
-  @media screen and (max-width: 768px) {
-    .col-sm-4 {
-      text-align: center;
-      margin: 25px 0;
-    }
-    .btn-lg {
-      width: 100%;
-      margin-bottom: 35px;
-    }
-  }
-  @media screen and (max-width: 480px) {
-    .logo {
-      font-size: 150px;
-    }
-  }
+.text-center {
+    text-align: center;
+}
+.container {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    max-width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+}
+ 
+.navbar-dark {
+    padding: 15px !important;
+    background: #13191d !important;
+}
+ 
+.sidebar {
+    line-height: 26px;
+    padding-top: 50px;
+}
+ 
+.sidebar ul {
+    margin: 30px 0px;
+}
+ 
+.sidebar .nav-link {
+    display: block;
+    text-align: center;
+}
+ 
+.sidebar .nav-link i {
+    display: block;
+    text-align: center;
+}
+ 
+.sidebar .nav-link.active {
+    color: #03A9F4;
+}
+ 
+.movie_list {
+    margin-top: 8rem;
+    padding-left: 4rem !important;
+}
+ 
+.card-view {
+    background: #ffffff;
+    box-shadow: 0px 6px 18px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 315px;
+    margin: 2em;
+    border-radius: 10px;
+    display: inline-block;
+}
+ 
+.card-header  {
+    padding: 0;
+    margin: 0;
+    height: 367px;
+    width: 100%;
+    display: block;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+.card-header trailer {
+    background-size: contain;
+}
+.hero-imag:hover {
+  opacity: 1.0;
+}
+.card-header-icon {
+    position: relative;
+}
+ 
+.header-icon {
+    width: 100%;
+    height: 367px;
+    line-height: 367px;
+    text-align: center;
+    vertical-align: middle;
+    margin: 0 auto;
+    color: #ffffff;
+    font-size: 54px;
+    text-shadow: 0px 0px 20px #6abcea, 0px 5px 20px #6ABCEA;
+    opacity: .85;
+}
+ 
+.header-icon:hover {
+    background: rgba(0, 0, 0, 0.15);
+    font-size: 74px;
+    text-shadow: 0px 0px 20px #6abcea, 0px 5px 30px #6ABCEA;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    opacity: 1;
+}
+ 
+.card-movie-content {
+    padding: 18px 18px 24px 18px;
+    margin: 0;
+}
+ 
+.card-movie-content-head,
+.card-movie-info {
+    display: table;
+    width: 100%;
+}
+ 
+.ratings {
+    width: 50px;
+    height: 15px;
+    background-size: contain;
+    display: table-cell;
+    text-align: right;
+    position: relative;
+    margin-top: 5px;
+    font-weight: 600;
+}
+ 
+.ratings span {
+    color: #2196F3;
+}
+ 
+.card-movie-info {
+    margin-top: 1em;
+}
+ 
+.movie-running-time {
+    display: table-cell;
+    text-transform: uppercase;
+    text-align: center;
+}
+ 
+.movie-running-time:first-of-type {
+    text-align: left;
+}
+ 
+.movie-running-time:last-of-type {
+    text-align: right;
+}
+ 
+.movie-running-time label {
+    display: block;
+    color: rgba(0, 0, 0, 0.5);
+    margin-bottom: .5em;
+    font-size: 9px;
+}
+ 
+.movie-running-time span {
+    font-weight: 700;
+    font-size: 11px;
+}
