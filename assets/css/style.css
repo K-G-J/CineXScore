@@ -32,6 +32,9 @@
   #main {
     background-color: var(--background);
   }
+ .jumbotron {
+    background-color: var(--background);
+  }
   #cast-image {
     width: 80%;
     height: 80%;
@@ -53,6 +56,7 @@
   }
   .navbar {
     display: flex;
+    flex-wrap: wrap;
     flex-direction: row;
     margin-bottom: 0;
     background-color: var(--background);
@@ -158,6 +162,7 @@
     width: 20%;
     text-align: left;
     color: var(--text);
+    background-color: var(--background);
   }
   #results p {
     display: flex;
@@ -166,6 +171,10 @@
     width: 20%;
     text-align: left;
     color: var(--text);
+    background-color: var(--background);
+  }
+  #result {
+    background-color: var(--background);
   }
   .container-fluid {
     padding: 60px 50px;
@@ -227,6 +236,10 @@
     .navbar-1{
       margin: auto;
     }
+    #trailer {
+      width: 460px;
+      height: 315px;
+    }
   }
   @media screen and (max-width: 480px) {
     .logo {
@@ -234,5 +247,9 @@
     }
     .navbar-1{
       margin: auto;
+    }
+    #trailer {
+      width: 360px;
+      height: 215px;
     }
   }
