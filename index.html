@@ -16,7 +16,7 @@
   <!-- Navigation Menu -->
 <nav class="navbar navbar-default navbar-fixed-top">
       <a id="logo" class="navbar-brand" onClick="window.location.reload();">CineXScore</a>
-  <div class="dropdown navbar-brand">Past Searches
+  <div class="dropdown navbar-brand navbar-1">Past Searches
     <i class="fa fa-caret-down"></i>
     <div id="past-search-dropdown" class="dropdown-content">
       <a id="clear-searches">Clear</a>
@@ -36,18 +36,18 @@
   <h1>Search for a movie!</h1> 
   <form id="search-form">
     <input id="searchBox" name="movie-search-title" type="text" class="form-control" size="50" placeholder="movie title"/>
-    <button id="searchBtn" type='button' class="btn btn-danger" onclick="sendTitle()">Search</button>
+    <button id="searchBtn" type='button' class="btn" onclick="sendTitle()">Search</button>
   </form>
   <div id="result"></div>
 </div>
+
+<main id="main" class=hidden>
+<!-- Container (primary movie info) -->
 
 <!-- hero image -->
 <div id="hero">
   <img id="hero-image" src ="" />
 </div>
-
-<main id="main" class=hidden>
-<!-- Container (primary movie info) -->
 <div id="movie-info" class="container-fluid">
   <div class="row">
     <div class="col-sm-8">
@@ -67,7 +67,7 @@
 </div>
 
 <!-- Container (cast) -->
-<div id="cast" class="container-fluid bg-grey">
+<div id="cast" class="container-fluid">
   <div class="row">
     <div id="cast-icon" class="col-sm-4">
       <span>
