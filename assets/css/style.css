@@ -244,6 +244,14 @@
       width: 460px;
       height: 315px;
     }
+    #logo {
+      font-size: 3.5em;
+      margin-top: .2em;
+      margin-bottom: auto
+     }
+     .navbar {
+      justify-content: center;
+    }
   }
   @media screen and (max-width: 480px) {
     .logo {
@@ -256,4 +264,12 @@
       width: 360px;
       height: 215px;
     }
+   #logo {
+    font-size: 3.5em;
+    margin-top: .2em;
+    margin-bottom: auto
+   }
+   .navbar {
+    justify-content: center;
+  }
   }
