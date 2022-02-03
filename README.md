@@ -1,4 +1,4 @@
-# CineXScore App 🍿
+# CineXScore App 🎞
 ## https://k-g-j.github.io/CineXScore/ 
 ### The Application is meant to grant people easier access to movie information, ratings, and soundtracks they enjoyed while watching the movie.
 - User is able to search up any movie title and come up with all relevant information for it 
