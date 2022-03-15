@@ -136,11 +136,11 @@ var getMovie = function (title) {
           showMovie(movieData);
         });
       } else {
-        alert("Error: title not found!");
+        console.log("Error: title not found!");
       }
     })
     .catch(function (error) {
-      alert("Unable to connect to CineXScore app");
+      console.log("Unable to connect to CineXScore app");
       console.log(error);
     });
 };
